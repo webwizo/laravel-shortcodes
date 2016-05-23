@@ -35,7 +35,7 @@ After updating composer, add the ServiceProvider to the providers array in `conf
 ## Usage
 
 ```php
-'Webwizo\Shortcodes\ShortcodesServiceProvider',
+Webwizo\Shortcodes\ShortcodesServiceProvider::class,
 ```
 
 You can use the facade for shorter code. Add this to your aliases:
@@ -139,7 +139,7 @@ class BoldShortcode {
   
 }
 
-Shortcode::register('b', BoldShortcode::class);
+Shortcode::register('b', \App\Shortcodes\BoldShortcode::class);
 ```
 
 ### Class with custom method
@@ -156,7 +156,7 @@ class BoldShortcode {
   
 }
 
-Shortcode::register('b', 'BoldShortcode@custom');
+Shortcode::register('b', 'App\Shortcodes\BoldShortcode@custom');
 
 ```
 

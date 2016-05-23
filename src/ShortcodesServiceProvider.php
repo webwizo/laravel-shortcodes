@@ -2,7 +2,6 @@
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Factory;
-use Webwizo\Shortcodes\Compilers\Shortcode;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
 
 class ShortcodesServiceProvider extends ServiceProvider
