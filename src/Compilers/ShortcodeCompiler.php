@@ -11,7 +11,7 @@ class ShortcodeCompiler {
     protected $enabled = false;
 
     /**
-     * Registered shortcodes
+     * Registered laravel-shortcodes
      * @var array
      */
     protected $registered = array();
@@ -51,7 +51,7 @@ class ShortcodeCompiler {
      */
     public function compile($value)
     {
-        // Only continue is shortcodes have been registered
+        // Only continue is laravel-shortcodes have been registered
         if(!$this->enabled || !$this->hasShortcodes())
             return $value;
 
@@ -70,7 +70,7 @@ class ShortcodeCompiler {
     }
 
     /**
-     * Check if shortcodes have been registered
+     * Check if laravel-shortcodes have been registered
      * @return boolean
      */
     public function hasShortcodes()
@@ -96,7 +96,7 @@ class ShortcodeCompiler {
     }
 
     /**
-     * Render shortcodes
+     * Render laravel-shortcodes
      * @param  string  $value
      * @return string
      */
@@ -172,7 +172,7 @@ class ShortcodeCompiler {
      */
     public function getContent()
     {
-        // Compile the content, to support nested shortcodes
+        // Compile the content, to support nested laravel-shortcodes
         return $this->compile($this->matches[5]);
     }
 
@@ -183,7 +183,7 @@ class ShortcodeCompiler {
      */
     public function getCallback($name)
     {
-        // Get the callback from the shortcodes array
+        // Get the callback from the laravel-shortcodes array
         $callback = $this->registered[$name];
 
         // if is a string
@@ -267,7 +267,7 @@ class ShortcodeCompiler {
         // return regex
         return  "/"
                 . '\\['                              // Opening bracket
-                . '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
+                . '(\\[?)'                           // 1: Optional second opening bracket for escaping laravel-shortcodes: [[tag]]
                 . "($shortcodeNames)"                // 2: Shortcode name
                 . '(?![\\w-])'                       // Not followed by word character or hyphen
                 . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
@@ -293,7 +293,7 @@ class ShortcodeCompiler {
                 .         '\\[\\/\\2\\]'             // Closing shortcode tag
                 .     ')?'
                 . ')'
-                . '(\\]?)'                         // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+                . '(\\]?)'                         // 6: Optional second closing brocket for escaping laravel-shortcodes: [[tag]]
                 . "/s";
     }
 

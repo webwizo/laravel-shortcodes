@@ -2,7 +2,7 @@
 
 Contributions are **welcome** and will be fully **credited**.
 
-We accept contributions via Pull Requests on [Github](https://github.com/webwizo/shortcodes).
+We accept contributions via Pull Requests on [Github](https://github.com/webwizo/laravel-shortcodes).
 
 
 ## Pull Requests

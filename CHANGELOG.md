@@ -1,8 +1,8 @@
 # Changelog
 
-All Notable changes to `Shortcode` will be documented in this file.
+All Notable changes to `laravel-shortcode` will be documented in this file.
 
-Updates should follow the [Keep a CHANGELOG](http://github.com/webwizo/shortcodes) principles.
+Updates should follow the [Keep a CHANGELOG](http://github.com/webwizo/laravel-shortcodes) principles.
 
 ## NEXT - YYYY-MM-DD
 

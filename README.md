@@ -27,7 +27,7 @@ If you are looking for Laravel 4.2, see: https://github.com/patrickbrouwers/Lara
 Via Composer
 
 ``` bash
-$ composer require "webwizo/shortcodes:1.0.0"
+$ composer require "webwizo/laravel-shortcodes:1.0.0"
 ```
 
 After updating composer, add the ServiceProvider to the providers array in `config/app.php`
@@ -196,17 +196,17 @@ If you discover any security related issues, please email webwizo@gmail.com inst
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/webwizo/shortcodes.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/webwizo/laravel-shortcodes.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/webwizo/shortcodes/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/webwizo/shortcodes.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/webwizo/shortcodes.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/webwizo/shortcodes.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/webwizo/laravel-shortcodes/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/webwizo/laravel-shortcodes.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/webwizo/laravel-shortcodes.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/webwizo/laravel-shortcodes.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/webwizo/shortcodes
-[link-travis]: https://travis-ci.org/webwizo/shortcodes
-[link-scrutinizer]: https://scrutinizer-ci.com/g/webwizo/shortcodes/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/webwizo/shortcodes
-[link-downloads]: https://packagist.org/packages/webwizo/shortcodes
+[link-packagist]: https://packagist.org/packages/webwizo/laravel-shortcodes
+[link-travis]: https://travis-ci.org/webwizo/laravel-shortcodes
+[link-scrutinizer]: https://scrutinizer-ci.com/g/webwizo/laravel-shortcodes/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/webwizo/laravel-shortcodes
+[link-downloads]: https://packagist.org/packages/webwizo/laravel-shortcodes
 [link-author]: https://github.com/webwizo
 [link-contributors]: ../../contributors

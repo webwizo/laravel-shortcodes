@@ -23,7 +23,7 @@ class ShortcodesServiceProvider extends ServiceProvider
     public function enableCompiler()
     {
         // Check if the compiler is auto enabled
-        $state = $this->app['config']->get('shortcodes::enabled', false);
+        $state = $this->app['config']->get('laravel-shortcodes::enabled', false);
 
         // enable when needed
         if($state)

@@ -33,7 +33,7 @@ class Shortcode
     }
 
     /**
-     * Enable the shortcodes
+     * Enable the laravel-shortcodes
      * @return \Webwizo\Shortcodes\Shortcode
      */
     public function enable()
@@ -43,7 +43,7 @@ class Shortcode
     }
 
     /**
-     * Disable the shortcodes
+     * Disable the laravel-shortcodes
      * @return \Webwizo\Shortcodes\Shortcode
      */
     public function disable()
