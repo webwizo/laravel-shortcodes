@@ -41,7 +41,7 @@ Webwizo\Shortcodes\ShortcodesServiceProvider::class,
 You can use the facade for shorter code. Add this to your aliases:
 
 ```php
-'Shortcode' => 'Webwizo\Shortcodes\Facades\Shortcode',
+'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
 ```
 
 The class is bound to the ioC as `shortcode`
