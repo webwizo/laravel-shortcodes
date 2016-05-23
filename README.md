@@ -41,7 +41,7 @@ After updating composer, add the ServiceProvider to the providers array in `conf
 You can use the facade for shorter code. Add this to your aliases:
 
 ```php
-'Shortcode' => 'Brouwers\Shortcodes\Facades\Shortcode',
+'Shortcode' => 'Webwizo\Shortcodes\Facades\Shortcode',
 ```
 
 The class is bound to the ioC as `shortcode`
