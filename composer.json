@@ -25,6 +25,9 @@
         "squizlabs/php_codesniffer": "~2.3"
     },
     "autoload": {
+        "classmap": [
+            "tests/TestCase.php"
+        ],
         "psr-4": {
             "Webwizo\\Shortcodes\\": "src"
         }
