@@ -2,13 +2,18 @@
 
 use Orchestra\Testbench\TestCase as TestBenchTestCase;
 
-use Webwizo\Shortcodes\Shortcode;
-
 class TestCase extends TestBenchTestCase
 {
-    public function testShortcodeClass()
+
+    protected function getPackageProviders($app)
     {
-        $shortcode = app('shortcode');
-        $this->assertInstanceOf(Shortcode::class, $shortcode);
+        return ['Webwizo\ShortCodes\ShortcodesServiceProvider'];
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Shortcode' => 'Webwizo\Shortcodes\Facades\Shortcode'
+        ];
     }
 }
