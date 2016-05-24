@@ -1,8 +1,8 @@
 <?php namespace Webwizo\Shortcodes;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Factory;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
+use Webwizo\Shortcodes\View\Factory;
 
 class ShortcodesServiceProvider extends ServiceProvider
 {
