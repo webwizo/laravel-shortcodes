@@ -1,6 +1,5 @@
-<?php namespace Webwizo\ShortCodes;
-
-use TestCase;
+<?php
+use Webwizo\Shortcodes\Shortcode;
 
 class TestServiceProvider extends TestCase
 {
