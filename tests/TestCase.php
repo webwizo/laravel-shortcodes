@@ -7,13 +7,13 @@ class TestCase extends TestBenchTestCase
 
     protected function getPackageProviders($app)
     {
-        return ['Webwizo\ShortCodes\ShortcodesServiceProvider'];
+        return [Webwizo\ShortCodes\ShortcodesServiceProvider::class];
     }
 
     protected function getPackageAliases($app)
     {
         return [
-            'Shortcode' => 'Webwizo\Shortcodes\Facades\Shortcode'
+            'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class
         ];
     }
 }
