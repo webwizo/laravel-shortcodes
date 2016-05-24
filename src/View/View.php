@@ -12,7 +12,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
 
     /**
      * Short code engine resolver
-     *  @var \Webwizo\Shortcodes\View\ShortcodeCompiler
+     *  @var ShortcodeCompiler
      */
     public $shortcode;
 
@@ -34,7 +34,6 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
 
     /**
      * Enable the shortcodes
-     * @return [type] [description]
      */
     public function withShortcodes()
     {
@@ -44,7 +43,6 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
 
     /**
      * Disable the shortcodes
-     * @return [type] [description]
      */
     public function withoutShortcodes()
     {

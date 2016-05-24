@@ -111,7 +111,7 @@ After defining shortcodes, add the ServiceProvider to the providers array in `co
 ## Usage
 
 ```php
-'App\Providers\ShortcodesServiceProvider',
+App\Providers\ShortcodesServiceProvider::class,
 ```
 
 ### Callback

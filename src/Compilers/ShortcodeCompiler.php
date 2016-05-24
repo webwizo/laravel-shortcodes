@@ -2,22 +2,31 @@
 
 use Illuminate\Support\Str;
 
-class ShortcodeCompiler {
+class ShortcodeCompiler
+{
 
     /**
      * Enabled state
+     *
      * @var boolean
      */
     protected $enabled = false;
 
     /**
+     * @var
+     */
+    protected $matches;
+
+    /**
      * Registered laravel-shortcodes
+     *
      * @var array
      */
-    protected $registered = array();
+    protected $registered = [];
 
     /**
      * Enable
+     *
      * @return void
      */
     public function enable()
@@ -27,6 +36,7 @@ class ShortcodeCompiler {
 
     /**
      * Disable
+     *
      * @return void
      */
     public function disable()
@@ -36,7 +46,8 @@ class ShortcodeCompiler {
 
     /**
      * Add a new shortcode
-     * @param string $name
+     *
+     * @param string          $name
      * @param callable|string $callback
      */
     public function add($name, $callback)
@@ -46,23 +57,22 @@ class ShortcodeCompiler {
 
     /**
      * Compile the contents
+     *
      * @param  string $value
+     *
      * @return string
      */
     public function compile($value)
     {
         // Only continue is laravel-shortcodes have been registered
-        if(!$this->enabled || !$this->hasShortcodes())
+        if (!$this->enabled || !$this->hasShortcodes())
             return $value;
-
         // Set empty result
         $result = '';
-
         // Here we will loop through all of the tokens returned by the Zend lexer and
         // parse each one into the corresponding valid PHP. We will then have this
         // template as the correctly rendered PHP that can be rendered natively.
-        foreach (token_get_all($value) as $token)
-        {
+        foreach (token_get_all($value) as $token) {
             $result .= is_array($token) ? $this->parseToken($token) : $token;
         }
 
@@ -71,6 +81,7 @@ class ShortcodeCompiler {
 
     /**
      * Check if laravel-shortcodes have been registered
+     *
      * @return boolean
      */
     public function hasShortcodes()
@@ -80,15 +91,15 @@ class ShortcodeCompiler {
 
     /**
      * Parse the tokens from the template.
-     * @param  array  $token
+     *
+     * @param  array $token
+     *
      * @return string
      */
     protected function parseToken($token)
     {
         list($id, $content) = $token;
-
-        if ($id == T_INLINE_HTML)
-        {
+        if ($id == T_INLINE_HTML) {
             $content = $this->renderShortcodes($content);
         }
 
@@ -97,20 +108,24 @@ class ShortcodeCompiler {
 
     /**
      * Render laravel-shortcodes
-     * @param  string  $value
+     *
+     * @param  string $value
+     *
      * @return string
      */
     protected function renderShortcodes($value)
     {
-        return preg_replace_callback($this->getRegex(), array(
+        return preg_replace_callback($this->getRegex(), [
             &$this,
             'render'
-        ), $value);
+        ], $value);
     }
 
     /**
      * Render the current calld shortcode.
-     * @param  array  $matches
+     *
+     * @param  array $matches
+     *
      * @return string
      */
     public function render($matches)
@@ -120,23 +135,23 @@ class ShortcodeCompiler {
         $name = $compiled->getName();
 
         // Render the shortcode through the callback
-        return call_user_func_array($this->getCallback($name), array(
+        return call_user_func_array($this->getCallback($name), [
             $compiled,
             $compiled->getContent(),
             $this,
             $name
-        ));
+        ]);
     }
 
     /**
      * Get Compiled Attributes.
+     *
      * @return \Webwizo\Shortcodes\Shortcode
      */
     protected function compileShortcode($matches)
     {
         // Set matches
         $this->setMatches($matches);
-
         // pars the attributes
         $attributes = $this->parseAttributes($this->matches[3]);
 
@@ -150,15 +165,17 @@ class ShortcodeCompiler {
 
     /**
      * Set the macthes
+     *
      * @param array $matches
      */
-    protected function setMatches($matches = array())
+    protected function setMatches($matches = [])
     {
         $this->matches = $matches;
     }
 
     /**
      * Return the shortcode name
+     *
      * @return string
      */
     public function getName()
@@ -168,6 +185,7 @@ class ShortcodeCompiler {
 
     /**
      * Return the shortcode content
+     *
      * @return string
      */
     public function getContent()
@@ -178,28 +196,26 @@ class ShortcodeCompiler {
 
     /**
      * Get the callback for the current shortcode (class or callback)
-     * @param  string  $name
+     *
+     * @param  string $name
+     *
      * @return callable|array
      */
     public function getCallback($name)
     {
         // Get the callback from the laravel-shortcodes array
         $callback = $this->registered[$name];
-
         // if is a string
-        if(is_string($callback))
-        {
+        if (is_string($callback)) {
             // Parse the callback
             list($class, $method) = Str::parseCallback($callback, 'register');
-
             // If the class exist
-            if(class_exists($class))
-            {
+            if (class_exists($class)) {
                 // return class and method
-                return array(
+                return [
                     app($class),
                     $method
-                );
+                ];
             }
         }
 
@@ -208,54 +224,41 @@ class ShortcodeCompiler {
 
     /**
      * Parse the shortcode attributes
+     *
      * @author Wordpress
      * @return array
      */
     protected function parseAttributes($text)
     {
-        $attributes = array();
-
+        $attributes = [];
         // attributes pattern
         $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-
         // Match
-        if(preg_match_all($pattern, preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text), $match, PREG_SET_ORDER))
-        {
-            foreach ($match as $m)
-            {
-                if (!empty($m[1]))
-                {
+        if (preg_match_all($pattern, preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text), $match, PREG_SET_ORDER)) {
+            foreach ($match as $m) {
+                if (!empty($m[1])) {
                     $attributes[strtolower($m[1])] = stripcslashes($m[2]);
-                }
-                elseif (!empty($m[3]))
-                {
+                } elseif (!empty($m[3])) {
                     $attributes[strtolower($m[3])] = stripcslashes($m[4]);
-                }
-                elseif (!empty($m[5]))
-                {
+                } elseif (!empty($m[5])) {
                     $attributes[strtolower($m[5])] = stripcslashes($m[6]);
-                }
-                elseif (isset($m[7]) and strlen($m[7]))
-                {
+                } elseif (isset($m[7]) and strlen($m[7])) {
                     $attributes[] = stripcslashes($m[7]);
-                }
-                elseif (isset($m[8]))
-                {
+                } elseif (isset($m[8])) {
                     $attributes[] = stripcslashes($m[8]);
                 }
             }
-        }
-        else
-        {
+        } else {
             $attributes = ltrim($text);
         }
 
         // return attributes
-        return is_array($attributes) ? $attributes : array($attributes);
+        return is_array($attributes) ? $attributes : [$attributes];
     }
 
     /**
      * Get shortcode regex.
+     *
      * @author Wordpress
      * @return string
      */
@@ -265,40 +268,41 @@ class ShortcodeCompiler {
         $shortcodeNames = $this->getShortcodeNames();
 
         // return regex
-        return  "/"
-                . '\\['                              // Opening bracket
-                . '(\\[?)'                           // 1: Optional second opening bracket for escaping laravel-shortcodes: [[tag]]
-                . "($shortcodeNames)"                // 2: Shortcode name
-                . '(?![\\w-])'                       // Not followed by word character or hyphen
-                . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
-                .     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
-                .     '(?:'
-                .         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
-                .         '[^\\]\\/]*'               // Not a closing bracket or forward slash
-                .     ')*?'
-                . ')'
-                . '(?:'
-                .     '(\\/)'                        // 4: Self closing tag ...
-                .     '\\]'                          // ... and closing bracket
-                . '|'
-                .     '\\]'                          // Closing bracket
-                .     '(?:'
-                .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
-                .             '[^\\[]*+'             // Not an opening bracket
-                .             '(?:'
-                .                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
-                .                 '[^\\[]*+'         // Not an opening bracket
-                .             ')*+'
-                .         ')'
-                .         '\\[\\/\\2\\]'             // Closing shortcode tag
-                .     ')?'
-                . ')'
-                . '(\\]?)'                         // 6: Optional second closing brocket for escaping laravel-shortcodes: [[tag]]
-                . "/s";
+        return "/"
+        . '\\['                              // Opening bracket
+        . '(\\[?)'                           // 1: Optional second opening bracket for escaping laravel-shortcodes: [[tag]]
+        . "($shortcodeNames)"                // 2: Shortcode name
+        . '(?![\\w-])'                       // Not followed by word character or hyphen
+        . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
+        . '[^\\]\\/]*'                   // Not a closing bracket or forward slash
+        . '(?:'
+        . '\\/(?!\\])'               // A forward slash not followed by a closing bracket
+        . '[^\\]\\/]*'               // Not a closing bracket or forward slash
+        . ')*?'
+        . ')'
+        . '(?:'
+        . '(\\/)'                        // 4: Self closing tag ...
+        . '\\]'                          // ... and closing bracket
+        . '|'
+        . '\\]'                          // Closing bracket
+        . '(?:'
+        . '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
+        . '[^\\[]*+'             // Not an opening bracket
+        . '(?:'
+        . '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
+        . '[^\\[]*+'         // Not an opening bracket
+        . ')*+'
+        . ')'
+        . '\\[\\/\\2\\]'             // Closing shortcode tag
+        . ')?'
+        . ')'
+        . '(\\]?)'                         // 6: Optional second closing brocket for escaping laravel-shortcodes: [[tag]]
+        . "/s";
     }
 
     /**
      * Get shortcode names
+     *
      * @return string
      */
     protected function getShortcodeNames()
