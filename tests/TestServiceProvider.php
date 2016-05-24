@@ -4,9 +4,10 @@ use TestCase;
 
 class TestServiceProvider extends TestCase
 {
-    public function testBasicExample()
+    public function testShortcodeClass()
     {
-        $this->assertTrue(true);
+        $shortcode = app('shortcode');
+        $this->assertInstanceOf(Shortcode::class, $shortcode);
     }
 
 }
