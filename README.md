@@ -27,7 +27,7 @@ If you are looking for Laravel 4.2, see: https://github.com/patrickbrouwers/Lara
 Via Composer
 
 ``` bash
-$ composer require "webwizo/laravel-shortcodes:1.0.0"
+$ composer require "webwizo/laravel-shortcodes:1.0.*"
 ```
 
 After updating composer, add the ServiceProvider to the providers array in `config/app.php`
