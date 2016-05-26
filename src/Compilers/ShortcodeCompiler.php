@@ -13,6 +13,13 @@ class ShortcodeCompiler
     protected $enabled = false;
 
     /**
+     * Enable strip state
+     *
+     * @var boolean
+     */
+    protected $strip = false;
+
+    /**
      * @var
      */
     protected $matches;
@@ -146,6 +153,8 @@ class ShortcodeCompiler
     /**
      * Get Compiled Attributes.
      *
+     * @param $matches
+     *
      * @return \Webwizo\Shortcodes\Shortcode
      */
     protected function compileShortcode($matches)
@@ -164,7 +173,7 @@ class ShortcodeCompiler
     }
 
     /**
-     * Set the macthes
+     * Set the matches
      *
      * @param array $matches
      */
@@ -257,6 +266,16 @@ class ShortcodeCompiler
     }
 
     /**
+     * Get shortcode names
+     *
+     * @return string
+     */
+    protected function getShortcodeNames()
+    {
+        return join('|', array_map('preg_quote', array_keys($this->registered)));
+    }
+
+    /**
      * Get shortcode regex.
      *
      * @author Wordpress
@@ -300,13 +319,88 @@ class ShortcodeCompiler
         . "/s";
     }
 
-    /**
-     * Get shortcode names
-     *
-     * @return string
-     */
-    protected function getShortcodeNames()
+    private function getStripRegex()
     {
-        return join('|', array_map('preg_quote', array_keys($this->registered)));
+        // Get shortcode names
+        $shortcodeNames = $this->getShortcodeNames();
+
+        return
+            '\\['                       // Opening bracket
+            . '(\\[?)'                  // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
+            . "($shortcodeNames)"            // 2: Shortcode name
+            . '(?![\\w-])'              // Not followed by word character or hyphen
+            . '('                       // 3: Unroll the loop: Inside the opening shortcode tag
+            . '[^\\]\\/]*'              // Not a closing bracket or forward slash
+            . '(?:'
+            . '\\/(?!\\])'              // A forward slash not followed by a closing bracket
+            . '[^\\]\\/]*'              // Not a closing bracket or forward slash
+            . ')*?'
+            . ')'
+            . '(?:'
+            . '(\\/)'                   // 4: Self closing tag ...
+            . '\\]'                     // ... and closing bracket
+            . '|'
+            . '\\]'                     // Closing bracket
+            . '(?:'
+            . '('                       // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
+            . '[^\\[]*+'                // Not an opening bracket
+            . '(?:'
+            . '\\[(?!\\/\\2\\])'        // An opening bracket not followed by the closing shortcode tag
+            . '[^\\[]*+'                // Not an opening bracket
+            . ')*+'
+            . ')'
+            . '\\[\\/\\2\\]'            // Closing shortcode tag
+            . ')?'
+            . ')'
+            . '(\\]?)';                 // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+    }
+
+    /**
+     * Remove all shortcode tags from the given content.
+     *
+     * @param string $content Content to remove shortcode tags.
+     *
+     * @return string Content without shortcode tags.
+     */
+    public function strip($content)
+    {
+        if (!$this->registered) {
+            return $content;
+        }
+        $pattern = $this->getStripRegex();
+
+        return preg_replace_callback("/$pattern/s", [$this, 'stripTag'], $content);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getStrip()
+    {
+        return $this->strip;
+    }
+
+    /**
+     * @param boolean $strip
+     */
+    public function setStrip($strip)
+    {
+        $this->strip = $strip;
+    }
+
+    /**
+     * Remove shortcode tag
+     *
+     * @param type $m
+     *
+     * @return string Content without shortcode tag.
+     */
+    protected function stripTag($m)
+    {
+        if ($m[1] == '[' && $m[6] == ']') {
+            return substr($m[0], 1, -1);
+        }
+
+        return $m[1] . $m[6];
     }
 }

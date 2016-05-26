@@ -65,4 +65,9 @@ class Shortcode
         // return compiled contents
         return $this->compiler->compile($value);
     }
+
+    public function strip($value)
+    {
+        return $this->compiler->strip($value);
+    }
 }

@@ -50,6 +50,12 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
         return $this;
     }
 
+    public function withStripShortcodes()
+    {
+        $this->shortcode->setStrip(true);
+        return $this;
+    }
+
     /**
      * Get the contents of the view instance.
      *
@@ -65,9 +71,18 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
         $this->factory->callComposer($this);
 
         $contents = $this->getContents();
+        
+        if($this->shortcode->isStrip())
+        {
+            // strip content without shortcodes
+            $contents = $this->shortcode->strip($contents);
+        }
+        else
+        {
+            // compile the shortcodes
+            $contents = $this->shortcode->compile($contents);
+        }
 
-        // compile the shortcodes
-        $contents = $this->shortcode->compile($contents);
 
         // Once we've finished rendering the view, we'll decrement the render count
         // so that each sections get flushed out next time a view is created and

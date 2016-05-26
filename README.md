@@ -52,10 +52,6 @@ $shortcode = app('shortcode');
 
 # Usage
 
-## View compiling
-
-By default shortcode compiling is set to false inside the config. 
-
 ### withShortcodes()
 
 To enable the view compiling features:
@@ -65,10 +61,6 @@ return view('view')->withShortcodes();
 ```
 
 This will enable shortcode rendering for that view only.
-
-### Config
-
-Enabeling the shortcodes through config `shortcodes::enabled` will enable shortcoding rendering for all views.
 
 ### Enable through class
 
@@ -82,7 +74,7 @@ Shortcode::enable();
 Shortcode::disable();
 ```
 
-### Disabeling some views from shortcode compiling
+### Disabling some views from shortcode compiling
 
 With the config set to true, you can disable the compiling per view.
 
@@ -96,6 +88,18 @@ To use default compiling:
 
 ```php
 Shortcode::compile($contents);
+```
+
+### Strip shortcodes from rendered view.
+
+```php
+return view('view')->withStripShortcodes();
+```
+
+## Strip shortcode through class
+
+```php
+Shortcode::strip($contents);
 ```
 
 ## Registering new shortcodes
@@ -116,17 +120,53 @@ App\Providers\ShortcodesServiceProvider::class,
 
 ### Callback
 
-Shortcodes can be registered like Laravel macro's with a callback:
+Shortcodes can be registered within ShortcodesServiceProvider with a callback:
 
-```php
-Shortcode::register('b', function($shortcode, $content, $compiler, $name)
-{
-  return '<strong class="'. $shortcode->class .'">' . $content . '</strong>';
-});
+```bash
+php artisan make:provider ShortcodesServiceProvider
 ```
 
-### Default class
+Add your ShortcodesServiceProvider to the providers array in `config/app.php`
 
+```php
+App\Providers\ShortcodesServiceProvider::class
+```
+
+ShortcodesServiceProvider.php Class File
+```php
+<?php namespace App\Providers;
+
+use App\Shortcodes\BoldShortcode;
+use Illuminate\Support\ServiceProvider;
+
+class ShortcodesServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        Shortcode::register('b', BoldShortcode::class);
+        Shortcode::register('i', 'App\Shortcodes\ItalicShortcode@custom');
+    }
+}
+```
+
+### Default class for BoldShortcode
+
+You can store each shortcode within their class `app/Shortcodes/BoldShortcode.php`
 ```php
 namespace App\Shortcodes;
 
@@ -134,30 +174,26 @@ class BoldShortcode {
 
   public function register($shortcode, $content, $compiler, $name)
   {
-    return '<strong class="'. $shortcode->class .'">' . $content . '</strong>';
+    return sprintf('<strong class="%s">%s</strong>', $shortcode->class, $content);
   }
   
 }
-
-Shortcode::register('b', \App\Shortcodes\BoldShortcode::class);
 ```
 
 ### Class with custom method
 
+You can store each shortcode within their class `app/Shortcodes/ItalicShortcode.php`
 ```php
 namespace App\Shortcodes;
 
-class BoldShortcode {
+class ItalicShortcode {
 
   public function custom($shortcode, $content, $compiler, $name)
   {
-    return '<strong class="'. $shortcode->class .'">' . $content . '</strong>';
+    return sprintf('<i class="%s">%s</i>', $shortcode->class, $content);
   }
   
 }
-
-Shortcode::register('b', 'App\Shortcodes\BoldShortcode@custom');
-
 ```
 
 ### Register helpers
@@ -189,7 +225,7 @@ If you discover any security related issues, please email webwizo@gmail.com inst
 
 ## Credits
 
-- [Asif iqbal][link-author]
+- [Asif Iqbal][link-author]
 - [All Contributors][link-contributors]
 
 ## License
