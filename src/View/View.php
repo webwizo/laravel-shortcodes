@@ -15,7 +15,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
      *  @var ShortcodeCompiler
      */
     public $shortcode;
-i
+
     /**
      * Create a new view instance.
      *
