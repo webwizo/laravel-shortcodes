@@ -8,7 +8,8 @@ use Illuminate\View\View as IlluminateView;
 use Illuminate\View\Engines\EngineInterface;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
 
-class View extends IlluminateView implements ArrayAccess, Renderable {
+class View extends IlluminateView implements ArrayAccess, Renderable
+{
 
     /**
      * Short code engine resolver
@@ -72,13 +73,10 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
 
         $contents = $this->getContents();
         
-        if($this->shortcode->getStrip())
-        {
+        if ($this->shortcode->getStrip()) {
             // strip content without shortcodes
             $contents = $this->shortcode->strip($contents);
-        }
-        else
-        {
+        } else {
             // compile the shortcodes
             $contents = $this->shortcode->compile($contents);
         }
@@ -91,5 +89,4 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
 
         return $contents;
     }
-
 }

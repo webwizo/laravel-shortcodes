@@ -7,7 +7,8 @@ use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory as IlluminateViewFactory;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
 
-class Factory extends IlluminateViewFactory {
+class Factory extends IlluminateViewFactory
+{
 
     /**
      * Short code engine resolver
@@ -40,7 +41,9 @@ class Factory extends IlluminateViewFactory {
      */
     public function make($view, $data = array(), $mergeData = array())
     {
-        if (isset($this->aliases[$view])) $view = $this->aliases[$view];
+        if (isset($this->aliases[$view])) {
+            $view = $this->aliases[$view];
+        }
 
         $path = $this->finder->find($view);
 

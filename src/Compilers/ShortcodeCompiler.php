@@ -72,8 +72,9 @@ class ShortcodeCompiler
     public function compile($value)
     {
         // Only continue is laravel-shortcodes have been registered
-        if (!$this->enabled || !$this->hasShortcodes())
+        if (!$this->enabled || !$this->hasShortcodes()) {
             return $value;
+        }
         // Set empty result
         $result = '';
         // Here we will loop through all of the tokens returned by the Zend lexer and

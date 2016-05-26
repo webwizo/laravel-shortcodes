@@ -15,5 +15,4 @@ class ShortcodesServiceProviderTest extends TestCase
         $shortcode = app('shortcode');
         $this->assertInstanceOf('Webwizo\Shortcodes\Shortcode', $shortcode);
     }
-
 }

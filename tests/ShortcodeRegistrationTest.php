@@ -23,7 +23,7 @@ class ShortcodeRegistrationTest extends TestCase
 
     public function testRegistrationAndCompileShortcode()
     {
-        $this->shortcode->register('b', function($shortcode, $content) {
+        $this->shortcode->register('b', function ($shortcode, $content) {
             return sprintf('<strong class="%s">%s</strong>', $shortcode->class, $content);
         });
 
@@ -31,6 +31,4 @@ class ShortcodeRegistrationTest extends TestCase
 
         $this->assertEquals($this->compiled, $compiled);
     }
-
-
 }

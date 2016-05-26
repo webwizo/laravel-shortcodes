@@ -25,8 +25,9 @@ class ShortcodesServiceProvider extends ServiceProvider
         $state = $this->app['config']->get('laravel-shortcodes::enabled', false);
 
         // enable when needed
-        if($state)
+        if ($state) {
             $this->app['shortcode.compiler']->enable();
+        }
     }
 
     /**
@@ -46,8 +47,7 @@ class ShortcodesServiceProvider extends ServiceProvider
      */
     public function registerShortcodeCompiler()
     {
-        $this->app->singleton('shortcode.compiler', function($app)
-        {
+        $this->app->singleton('shortcode.compiler', function ($app) {
             return new ShortcodeCompiler();
         });
     }
@@ -57,7 +57,7 @@ class ShortcodesServiceProvider extends ServiceProvider
      */
     public function registerShortcode()
     {
-        $this->app->singleton('shortcode', function($app) {
+        $this->app->singleton('shortcode', function ($app) {
             return new Shortcode($app['shortcode.compiler']);
         });
     }
@@ -67,8 +67,7 @@ class ShortcodesServiceProvider extends ServiceProvider
      */
     public function registerView()
     {
-        $this->app->singleton('view', function($app)
-        {
+        $this->app->singleton('view', function ($app) {
             // Next we need to grab the engine resolver instance that will be used by the
             // environment. The resolver will be used by an environment to get each of
             // the various engine implementations such as plain PHP or Blade engine.

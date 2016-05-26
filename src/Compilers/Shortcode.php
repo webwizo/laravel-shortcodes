@@ -1,6 +1,7 @@
 <?php namespace Webwizo\Shortcodes\Compilers;
 
-class Shortcode {
+class Shortcode
+{
 
     /**
      * Shortcode name
@@ -42,12 +43,9 @@ class Shortcode {
     {
         $value = $this->{$attribute};
 
-        if(!is_null($value))
-        {
+        if (!is_null($value)) {
             return $attribute . '="' . $value . '"';
-        }
-        elseif(!is_null($fallback))
-        {
+        } elseif (!is_null($fallback)) {
             return $attribute . '="' . $fallback . '"';
         }
     }
@@ -88,5 +86,4 @@ class Shortcode {
     {
         return isset($this->attributes[$param]) ? $this->attributes[$param] : null;
     }
-
 }
