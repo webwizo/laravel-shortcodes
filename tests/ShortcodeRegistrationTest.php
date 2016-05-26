@@ -1,6 +1,6 @@
 <?php namespace Webwizo\Shortcodes;
 
-class ShortcodeRegistrationTest extends \TestCase
+class ShortcodeRegistrationTest extends TestCase
 {
 
     protected $string = '[b class="bold"]Bold Text[/b]';
