@@ -15,7 +15,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
      *  @var ShortcodeCompiler
      */
     public $shortcode;
-
+i
     /**
      * Create a new view instance.
      *
@@ -72,7 +72,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable {
 
         $contents = $this->getContents();
         
-        if($this->shortcode->isStrip())
+        if($this->shortcode->getStrip())
         {
             // strip content without shortcodes
             $contents = $this->shortcode->strip($contents);
