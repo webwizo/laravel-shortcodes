@@ -1,4 +1,4 @@
-<?php namespace Webwizo\ShortCodes\View;
+<?php namespace Webwizo\Shortcodes\View;
 
 use ArrayAccess;
 use Closure;

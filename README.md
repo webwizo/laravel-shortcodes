@@ -6,6 +6,7 @@
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
+[![StyleCI](https://styleci.io/repos/59507292/shield)](https://styleci.io/repos/59507292)
 
 WordPress like shortcodes for Laravel 5.2
 
@@ -124,12 +125,6 @@ Shortcodes can be registered within ShortcodesServiceProvider with a callback:
 
 ```bash
 php artisan make:provider ShortcodesServiceProvider
-```
-
-Add your ShortcodesServiceProvider to the providers array in `config/app.php`
-
-```php
-App\Providers\ShortcodesServiceProvider::class
 ```
 
 ShortcodesServiceProvider.php Class File
