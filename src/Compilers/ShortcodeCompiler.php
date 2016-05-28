@@ -243,7 +243,7 @@ class ShortcodeCompiler
         // attributes pattern
         $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
         // Match
-        if (preg_match_all($pattern, preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text), $match, PREG_SET_ORDER)) {
+        if (preg_match_all($pattern, preg_replace('/[\x{00a0}\x{200b}]+/u', " ", $text), $match, PREG_SET_ORDER)) {
             foreach ($match as $m) {
                 if (!empty($m[1])) {
                     $attributes[strtolower($m[1])] = stripcslashes($m[2]);
@@ -283,21 +283,11 @@ class ShortcodeCompiler
      */
     protected function getRegex()
     {
-        // Get shortcode names
         $shortcodeNames = $this->getShortcodeNames();
 
-        // return regex
         return "\\[(\\[?)($shortcodeNames)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*+(?:\\[(?!\\/\\2\\])[^\\[]*+)*+)\\[\\/\\2\\])?)(\\]?)";
     }
 
-    /*private function getStripRegex()
-    {
-        // Get shortcode names
-        $shortcodeNames = $this->getShortcodeNames();
-
-        return
-            '\\[(\\[?)('.$shortcodeNames.')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*+(?:\\[(?!\\/\\2\\])[^\\[]*+)*+)\\[\\/\\2\\])?)(\\]?)';
-    }*/
     /**
      * Remove all shortcode tags from the given content.
      *
