@@ -12,7 +12,8 @@ class Factory extends IlluminateViewFactory
 
     /**
      * Short code engine resolver
-     *  @var ShortcodeCompiler
+     *
+     * @var ShortcodeCompiler
      */
     public $shortcode;
 
@@ -22,7 +23,7 @@ class Factory extends IlluminateViewFactory
      * @param \Illuminate\View\Compilers\EngineResolver|EngineResolver $engines
      * @param  \Illuminate\View\ViewFinderInterface                    $finder
      * @param  \Illuminate\Events\Dispatcher                           $events
-     * @param ShortcodeCompiler                                        $shortcode
+     * @param \Webwizo\Shortcodes\Compilers\ShortcodeCompiler          $shortcode
      */
     public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events, ShortcodeCompiler $shortcode)
     {
@@ -39,16 +40,13 @@ class Factory extends IlluminateViewFactory
      *
      * @return \Illuminate\Contracts\View\View|string|View
      */
-    public function make($view, $data = array(), $mergeData = array())
+    public function make($view, $data = [], $mergeData = [])
     {
         if (isset($this->aliases[$view])) {
             $view = $this->aliases[$view];
         }
-
         $path = $this->finder->find($view);
-
         $data = array_merge($mergeData, $this->parseData($data));
-
         $this->callCreator($view = new View($this, $this->getEngineFromPath($path), $view, $path, $data, $this->shortcode));
 
         return $view;

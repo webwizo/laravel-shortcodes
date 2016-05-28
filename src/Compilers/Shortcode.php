@@ -5,44 +5,49 @@ class Shortcode
 
     /**
      * Shortcode name
+     *
      * @var string
      */
     protected $name;
 
     /**
      * Shortcode Attributes
+     *
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Shortcode content
+     *
      * @var string
      */
     public $content;
 
     /**
      * Constructor
+     *
      * @param string $name
      * @param array  $attributes
      * @param string $content
      */
-    public function __construct($name, $attributes = array(), $content)
+    public function __construct($name, $attributes = [], $content)
     {
-        $this->name       = $name;
+        $this->name = $name;
         $this->attributes = $attributes;
-        $this->content    = $content;
+        $this->content = $content;
     }
 
     /**
      * Get html attribute
+     *
      * @param  string $attribute
+     *
      * @return string|null
      */
     public function get($attribute, $fallback = null)
     {
         $value = $this->{$attribute};
-
         if (!is_null($value)) {
             return $attribute . '="' . $value . '"';
         } elseif (!is_null($fallback)) {
@@ -52,6 +57,7 @@ class Shortcode
 
     /**
      * Get shortcode name
+     *
      * @return string
      */
     public function getName()
@@ -61,6 +67,7 @@ class Shortcode
 
     /**
      * Get shortcode attributes
+     *
      * @return string
      */
     public function getContent()
@@ -70,6 +77,7 @@ class Shortcode
 
     /**
      * Return array of attributes;
+     *
      * @return array
      */
     public function toArray()
@@ -79,7 +87,9 @@ class Shortcode
 
     /**
      * Dynamically get attributes
+     *
      * @param  string $param
+     *
      * @return string|null
      */
     public function __get($param)

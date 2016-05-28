@@ -123,10 +123,9 @@ class ShortcodeCompiler
      */
     protected function renderShortcodes($value)
     {
-        return preg_replace_callback($this->getRegex(), [
-            &$this,
-            'render'
-        ], $value);
+        $pattern = $this->getRegex();
+
+        return preg_replace_callback("/{$pattern}/s", [$this, 'render'], $value);
     }
 
     /**
@@ -252,7 +251,7 @@ class ShortcodeCompiler
                     $attributes[strtolower($m[3])] = stripcslashes($m[4]);
                 } elseif (!empty($m[5])) {
                     $attributes[strtolower($m[5])] = stripcslashes($m[6]);
-                } elseif (isset($m[7]) and strlen($m[7])) {
+                } elseif (isset($m[7]) && strlen($m[7])) {
                     $attributes[] = stripcslashes($m[7]);
                 } elseif (isset($m[8])) {
                     $attributes[] = stripcslashes($m[8]);
@@ -288,74 +287,17 @@ class ShortcodeCompiler
         $shortcodeNames = $this->getShortcodeNames();
 
         // return regex
-        return "/"
-        . '\\['                              // Opening bracket
-        . '(\\[?)'                           // 1: Optional second opening bracket for escaping laravel-shortcodes: [[tag]]
-        . "($shortcodeNames)"                // 2: Shortcode name
-        . '(?![\\w-])'                       // Not followed by word character or hyphen
-        . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
-        . '[^\\]\\/]*'                   // Not a closing bracket or forward slash
-        . '(?:'
-        . '\\/(?!\\])'               // A forward slash not followed by a closing bracket
-        . '[^\\]\\/]*'               // Not a closing bracket or forward slash
-        . ')*?'
-        . ')'
-        . '(?:'
-        . '(\\/)'                        // 4: Self closing tag ...
-        . '\\]'                          // ... and closing bracket
-        . '|'
-        . '\\]'                          // Closing bracket
-        . '(?:'
-        . '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
-        . '[^\\[]*+'             // Not an opening bracket
-        . '(?:'
-        . '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
-        . '[^\\[]*+'         // Not an opening bracket
-        . ')*+'
-        . ')'
-        . '\\[\\/\\2\\]'             // Closing shortcode tag
-        . ')?'
-        . ')'
-        . '(\\]?)'                         // 6: Optional second closing brocket for escaping laravel-shortcodes: [[tag]]
-        . "/s";
+        return "\\[(\\[?)($shortcodeNames)(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*+(?:\\[(?!\\/\\2\\])[^\\[]*+)*+)\\[\\/\\2\\])?)(\\]?)";
     }
 
-    private function getStripRegex()
+    /*private function getStripRegex()
     {
         // Get shortcode names
         $shortcodeNames = $this->getShortcodeNames();
 
         return
-            '\\['                       // Opening bracket
-            . '(\\[?)'                  // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
-            . "($shortcodeNames)"            // 2: Shortcode name
-            . '(?![\\w-])'              // Not followed by word character or hyphen
-            . '('                       // 3: Unroll the loop: Inside the opening shortcode tag
-            . '[^\\]\\/]*'              // Not a closing bracket or forward slash
-            . '(?:'
-            . '\\/(?!\\])'              // A forward slash not followed by a closing bracket
-            . '[^\\]\\/]*'              // Not a closing bracket or forward slash
-            . ')*?'
-            . ')'
-            . '(?:'
-            . '(\\/)'                   // 4: Self closing tag ...
-            . '\\]'                     // ... and closing bracket
-            . '|'
-            . '\\]'                     // Closing bracket
-            . '(?:'
-            . '('                       // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
-            . '[^\\[]*+'                // Not an opening bracket
-            . '(?:'
-            . '\\[(?!\\/\\2\\])'        // An opening bracket not followed by the closing shortcode tag
-            . '[^\\[]*+'                // Not an opening bracket
-            . ')*+'
-            . ')'
-            . '\\[\\/\\2\\]'            // Closing shortcode tag
-            . ')?'
-            . ')'
-            . '(\\]?)';                 // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
-    }
-
+            '\\[(\\[?)('.$shortcodeNames.')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*+(?:\\[(?!\\/\\2\\])[^\\[]*+)*+)\\[\\/\\2\\])?)(\\]?)';
+    }*/
     /**
      * Remove all shortcode tags from the given content.
      *
@@ -365,12 +307,12 @@ class ShortcodeCompiler
      */
     public function strip($content)
     {
-        if (!$this->registered) {
+        if (empty($this->registered)) {
             return $content;
         }
-        $pattern = $this->getStripRegex();
+        $pattern = $this->getRegex();
 
-        return preg_replace_callback("/$pattern/s", [$this, 'stripTag'], $content);
+        return preg_replace_callback("/{$pattern}/s", [$this, 'stripTag'], $content);
     }
 
     /**

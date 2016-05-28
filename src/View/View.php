@@ -1,8 +1,6 @@
 <?php namespace Webwizo\Shortcodes\View;
 
 use ArrayAccess;
-use Closure;
-use Illuminate\Support\MessageBag;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\View as IlluminateView;
 use Illuminate\View\Engines\EngineInterface;
@@ -13,7 +11,8 @@ class View extends IlluminateView implements ArrayAccess, Renderable
 
     /**
      * Short code engine resolver
-     *  @var ShortcodeCompiler
+     *
+     * @var \Webwizo\Shortcodes\Compilers\ShortcodeCompiler
      */
     public $shortcode;
 
@@ -25,9 +24,9 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      * @param  string                                                    $view
      * @param  string                                                    $path
      * @param  array                                                     $data
-     * @param ShortcodeCompiler                                          $shortcode
+     * @param \Webwizo\Shortcodes\Compilers\ShortcodeCompiler            $shortcode
      */
-    public function __construct(Factory $factory, EngineInterface $engine, $view, $path, $data = array(), ShortcodeCompiler $shortcode)
+    public function __construct(Factory $factory, EngineInterface $engine, $view, $path, $data = [], ShortcodeCompiler $shortcode)
     {
         parent::__construct($factory, $engine, $view, $path, $data);
         $this->shortcode = $shortcode;
@@ -39,6 +38,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable
     public function withShortcodes()
     {
         $this->shortcode->enable();
+
         return $this;
     }
 
@@ -48,12 +48,14 @@ class View extends IlluminateView implements ArrayAccess, Renderable
     public function withoutShortcodes()
     {
         $this->shortcode->disable();
+
         return $this;
     }
 
     public function withStripShortcodes()
     {
         $this->shortcode->setStrip(true);
+
         return $this;
     }
 
@@ -68,11 +70,8 @@ class View extends IlluminateView implements ArrayAccess, Renderable
         // the section after the complete rendering operation is done. This will
         // clear out the sections for any separate views that may be rendered.
         $this->factory->incrementRender();
-
         $this->factory->callComposer($this);
-
         $contents = $this->getContents();
-        
         if ($this->shortcode->getStrip()) {
             // strip content without shortcodes
             $contents = $this->shortcode->strip($contents);
@@ -80,8 +79,6 @@ class View extends IlluminateView implements ArrayAccess, Renderable
             // compile the shortcodes
             $contents = $this->shortcode->compile($contents);
         }
-
-
         // Once we've finished rendering the view, we'll decrement the render count
         // so that each sections get flushed out next time a view is created and
         // no old sections are staying around in the memory of an environment.

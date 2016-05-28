@@ -6,6 +6,7 @@ class Shortcode
 {
     /**
      * Shortcode compiler
+     *
      * @var \Webwizo\Shortcodes\Compilers\ShortcodeCompiler
      */
     protected $compiler;
@@ -22,39 +23,48 @@ class Shortcode
 
     /**
      * Register a new shortcode
-     * @param  string $name
+     *
+     * @param  string          $name
      * @param  callable|string $callback
+     *
      * @return \Webwizo\Shortcodes\Shortcode
      */
     public function register($name, $callback)
     {
         $this->compiler->add($name, $callback);
+
         return $this;
     }
 
     /**
      * Enable the laravel-shortcodes
+     *
      * @return \Webwizo\Shortcodes\Shortcode
      */
     public function enable()
     {
         $this->compiler->enable();
+
         return $this;
     }
 
     /**
      * Disable the laravel-shortcodes
+     *
      * @return \Webwizo\Shortcodes\Shortcode
      */
     public function disable()
     {
         $this->compiler->disable();
+
         return $this;
     }
 
     /**
      * Compile the given string
+     *
      * @param  string $value
+     *
      * @return string
      */
     public function compile($value)
