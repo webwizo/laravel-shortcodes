@@ -8,7 +8,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![StyleCI](https://styleci.io/repos/59507292/shield)](https://styleci.io/repos/59507292)
 
-WordPress like shortcodes for Laravel 5.2
+WordPress like shortcodes for Laravel 5.3
 
 ```php
 [b class="bold"]Bold text[/b]
@@ -21,6 +21,8 @@ WordPress like shortcodes for Laravel 5.2
 [user id="1" display="name"]
 ```
 
+If you are looking for Laravel 5.2, https://github.com/webwizo/laravel-shortcodes/tree/v1.0.4
+
 If you are looking for Laravel 4.2, see: https://github.com/patrickbrouwers/Laravel-Shortcodes
 
 ## Install
@@ -28,7 +30,7 @@ If you are looking for Laravel 4.2, see: https://github.com/patrickbrouwers/Lara
 Via Composer
 
 ``` bash
-$ composer require "webwizo/laravel-shortcodes:1.0.4"
+$ composer require "webwizo/laravel-shortcodes:1.0.*"
 ```
 
 After updating composer, add the ServiceProvider to the providers array in `config/app.php`
