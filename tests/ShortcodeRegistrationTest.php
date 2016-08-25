@@ -2,7 +2,6 @@
 
 class ShortcodeRegistrationTest extends TestCase
 {
-
     protected $string = '[b class="bold"]Bold Text[/b]';
 
     protected $compiled = '<strong class="bold">Bold Text</strong>';
