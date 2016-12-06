@@ -4,6 +4,13 @@ All Notable changes to `laravel-shortcodes` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://github.com/webwizo/laravel-shortcodes) principles.
 
+## 2016-12-06
+
+#### Shortcodes Latest version: v1.0.6
+
+### Added
+- Add Laravel versions from ~5.1 to ~5.3
+
 ## 2016-08-25
 
 #### Shortcodes Latest version: v1.0.5
