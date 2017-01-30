@@ -1,7 +1,7 @@
 {
     "name": "webwizo/laravel-shortcodes",
     "type": "library",
-    "description": "Wordpress like shortcodes for Laravel 5.3",
+    "description": "Wordpress like shortcodes for Laravel 5.x",
     "keywords": [
         "laravel",
         "wordpress",
@@ -18,9 +18,9 @@
         }
     ],
     "require": {
-        "illuminate/view": "~5.1|~5.2|~5.3",
-        "illuminate/support": "~5.1|~5.2|~5.3",
-        "illuminate/contracts": "~5.1|~5.2|~5.3",
+        "illuminate/view": "~5.1|~5.2|~5.3|~5.4",
+        "illuminate/support": "~5.1|~5.2|~5.3|~5.4",
+        "illuminate/contracts": "~5.1|~5.2|~5.3|~5.4",
         "php": "~5.5|~7.0"
     },
     "require-dev": {

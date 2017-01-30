@@ -8,7 +8,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![StyleCI](https://styleci.io/repos/59507292/shield)](https://styleci.io/repos/59507292)
 
-WordPress like shortcodes for Laravel 5.3
+WordPress like shortcodes for Laravel 5.x
 
 ```php
 [b class="bold"]Bold text[/b]
@@ -20,8 +20,6 @@ WordPress like shortcodes for Laravel 5.3
 
 [user id="1" display="name"]
 ```
-
-If you are looking for Laravel 5.2, https://github.com/webwizo/laravel-shortcodes/tree/v1.0.4
 
 If you are looking for Laravel 4.2, see: https://github.com/patrickbrouwers/Laravel-Shortcodes
 
