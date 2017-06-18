@@ -39,6 +39,8 @@ class View extends IlluminateView implements ArrayAccess, Renderable
     {
         $this->shortcode->enable();
 
+        $this->shortcode->attachData($this->getData());
+
         return $this;
     }
 
