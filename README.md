@@ -167,7 +167,7 @@ namespace App\Shortcodes;
 
 class BoldShortcode {
 
-  public function register($shortcode, $content, $compiler, $name)
+  public function register($shortcode, $content, $compiler, $name, $viewData)
   {
     return sprintf('<strong class="%s">%s</strong>', $shortcode->class, $content);
   }
@@ -183,7 +183,7 @@ namespace App\Shortcodes;
 
 class ItalicShortcode {
 
-  public function custom($shortcode, $content, $compiler, $name)
+  public function custom($shortcode, $content, $compiler, $name, $viewData)
   {
     return sprintf('<i class="%s">%s</i>', $shortcode->class, $content);
   }
@@ -198,7 +198,7 @@ If you only want to show the html attribute when the attribute is provided in th
 ```php
 class BoldShortcode {
 
-  public function register($shortcode, $content, $compiler, $name)
+  public function register($shortcode, $content, $compiler, $name, $viewData)
   {
     return '<strong '. $shortcode->get('class', 'default') .'>' . $content . '</strong>';
   }
