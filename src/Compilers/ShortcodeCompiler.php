@@ -32,6 +32,13 @@ class ShortcodeCompiler
     protected $registered = [];
 
     /**
+     * Attached View Data
+     *
+     * @var array
+     */
+    protected $data = [];
+
+    /**
      * Enable
      *
      * @return void
@@ -60,6 +67,11 @@ class ShortcodeCompiler
     public function add($name, $callback)
     {
         $this->registered[$name] = $callback;
+    }
+
+    public function attachData($data)
+    {
+        $this->data = $data;
     }
 
     /**
@@ -146,7 +158,8 @@ class ShortcodeCompiler
             $compiled,
             $compiled->getContent(),
             $this,
-            $name
+            $name,
+            $this->getData()
         ]);
     }
 
@@ -202,6 +215,17 @@ class ShortcodeCompiler
         // Compile the content, to support nested laravel-shortcodes
         return $this->compile($this->matches[5]);
     }
+
+    /**
+     * Return the view data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
 
     /**
      * Get the callback for the current shortcode (class or callback)
