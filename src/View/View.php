@@ -3,7 +3,7 @@
 use ArrayAccess;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\View as IlluminateView;
-use Illuminate\View\Engines\EngineInterface;
+use Illuminate\Contracts\View\Engine as EngineInterface;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
 
 class View extends IlluminateView implements ArrayAccess, Renderable
@@ -20,7 +20,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      * Create a new view instance.
      *
      * @param \Illuminate\View\Factory|Factory                           $factory
-     * @param \Illuminate\View\Compilers\EngineInterface|EngineInterface $engine
+     * @param \Illuminate\Contracts\View\Engine|EngineInterface $engine
      * @param  string                                                    $view
      * @param  string                                                    $path
      * @param  array                                                     $data
