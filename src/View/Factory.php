@@ -42,13 +42,17 @@ class Factory extends IlluminateViewFactory
      */
     public function make($view, $data = [], $mergeData = [])
     {
-        if (isset($this->aliases[$view])) {
-            $view = $this->aliases[$view];
-        }
-        $path = $this->finder->find($view);
-        $data = array_merge($mergeData, $this->parseData($data));
-        $this->callCreator($view = new View($this, $this->getEngineFromPath($path), $view, $path, $data, $this->shortcode));
+         $path = $this->finder->find(
+            $view = $this->normalizeName($view)
+        );
 
-        return $view;
+        // Next, we will create the view instance and call the view creator for the view
+        // which can set any data, etc. Then we will return the view instance back to
+        // the caller for rendering or performing other view manipulations on this.
+        $data = array_merge($mergeData, $this->parseData($data));
+
+        return tap($this->viewInstance($view, $path, $data), function ($view) {
+            $this->callCreator($view);
+        });
     }
 }
