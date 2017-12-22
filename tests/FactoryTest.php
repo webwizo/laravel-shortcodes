@@ -13,7 +13,7 @@ class FactoryTest extends TestCase
     {
         $factory = app('view');
 
-        $factory->addNamespace('Test',  __DIR__.'\views');
+        $factory->addNamespace('Test',  __DIR__.'/views');
 
         $this->assertTrue($factory->make('Test::test') instanceof View);
     }
