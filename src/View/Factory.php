@@ -51,7 +51,7 @@ class Factory extends IlluminateViewFactory
         // the caller for rendering or performing other view manipulations on this.
         $data = array_merge($mergeData, $this->parseData($data));
 
-        return tap($this->viewInstance($view, $path, $data), function ($view) {
+        return tap(new View($this, $this->getEngineFromPath($path), $view, $path, $data, $this->shortcode), function ($view) {
             $this->callCreator($view);
         });
     }
