@@ -360,4 +360,14 @@ class ShortcodeCompiler
 
         return $m[1] . $m[6];
     }
+    
+    /**
+     * Get registered shortcodes
+     *
+     * @return array shortcode tags.
+     */
+    public function getRegistered()
+    {
+        return $this->registered;
+    }
 }
