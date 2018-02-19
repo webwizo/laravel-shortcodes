@@ -44,5 +44,15 @@
     },
     "scripts": {
         "test": "phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webwizo\\Shortcodes\\ShortcodesServiceProvider"
+            ],
+            "aliases": {
+                "Shortcode": "Webwizo\\Shortcodes\\Facades\\Shortcode"
+            }
+        }
     }
 }
