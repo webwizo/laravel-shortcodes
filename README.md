@@ -133,6 +133,7 @@ ShortcodesServiceProvider.php Class File
 
 use App\Shortcodes\BoldShortcode;
 use Illuminate\Support\ServiceProvider;
+use Shortcode;
 
 class ShortcodesServiceProvider extends ServiceProvider
 {
