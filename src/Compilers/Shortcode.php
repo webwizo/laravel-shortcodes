@@ -1,8 +1,9 @@
 <?php namespace Webwizo\Shortcodes\Compilers;
 
-class Shortcode
-{
+use Illuminate\Contracts\Support\Arrayable;
 
+class Shortcode implements Arrayable
+{
     /**
      * Shortcode name
      *

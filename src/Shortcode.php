@@ -76,6 +76,13 @@ class Shortcode
         return $this->compiler->compile($value);
     }
 
+    /**
+     * Remove all shortcode tags from the given content.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
     public function strip($value)
     {
         return $this->compiler->strip($value);

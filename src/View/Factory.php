@@ -1,6 +1,5 @@
 <?php namespace Webwizo\Shortcodes\View;
 
-use Closure;
 use Illuminate\Events\Dispatcher;
 use Illuminate\View\ViewFinderInterface;
 use Illuminate\View\Engines\EngineResolver;
@@ -9,7 +8,6 @@ use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
 
 class Factory extends IlluminateViewFactory
 {
-
     /**
      * Short code engine resolver
      *
@@ -42,7 +40,7 @@ class Factory extends IlluminateViewFactory
      */
     public function make($view, $data = [], $mergeData = [])
     {
-         $path = $this->finder->find(
+        $path = $this->finder->find(
             $view = $this->normalizeName($view)
         );
 
