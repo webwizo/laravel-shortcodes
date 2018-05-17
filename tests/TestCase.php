@@ -1,4 +1,6 @@
-<?php namespace Webwizo\Shortcodes;
+<?php
+
+namespace Webwizo\Shortcodes;
 
 use Orchestra\Testbench\TestCase as TestBenchTestCase;
 

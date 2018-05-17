@@ -1,8 +1,10 @@
-<?php namespace Webwizo\Shortcodes;
+<?php
 
+namespace Webwizo\Shortcodes;
+
+use Webwizo\Shortcodes\View\Factory;
 use Illuminate\Support\ServiceProvider;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
-use Webwizo\Shortcodes\View\Factory;
 
 class ShortcodesServiceProvider extends ServiceProvider
 {
@@ -17,13 +19,14 @@ class ShortcodesServiceProvider extends ServiceProvider
     }
 
     /**
-     * Enable the compiler
+     * Enable the compiler.
      */
     public function enableCompiler()
     {
         // Check if the compiler is auto enabled
         $state = $this->app['config']->get('laravel-shortcodes::enabled', false);
-        // enable when needed
+
+        // Enable when needed
         if ($state) {
             $this->app['shortcode.compiler']->enable();
         }
@@ -42,7 +45,7 @@ class ShortcodesServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register short code compiler
+     * Register short code compiler.
      */
     public function registerShortcodeCompiler()
     {
@@ -52,7 +55,7 @@ class ShortcodesServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the shortcode
+     * Register the shortcode.
      */
     public function registerShortcode()
     {
@@ -62,17 +65,19 @@ class ShortcodesServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register Laravel view
+     * Register Laravel view.
      */
     public function registerView()
     {
-        $this->app->singleton('view', function ($app) {
+        $finder = $this->app['view']->getFinder();
+
+        $this->app->singleton('view', function ($app) use ($finder) {
             // Next we need to grab the engine resolver instance that will be used by the
             // environment. The resolver will be used by an environment to get each of
             // the various engine implementations such as plain PHP or Blade engine.
             $resolver = $app['view.engine.resolver'];
-            $finder = $app['view.finder'];
             $env = new Factory($resolver, $finder, $app['events'], $app['shortcode.compiler']);
+
             // We will also set the container instance on this view environment since the
             // view composers may be classes registered in the container, which allows
             // for great testable, flexible composers for the application developer.
