@@ -5,6 +5,7 @@ namespace Webwizo\Shortcodes;
 use Webwizo\Shortcodes\View\Factory;
 use Illuminate\Support\ServiceProvider;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
+use Webwizo\Shortcodes\Commands\CreateShortcode;
 
 class ShortcodesServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,11 @@ class ShortcodesServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->enableCompiler();
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CreateShortcode::class
+            ]);
+        }
     }
 
     /**
