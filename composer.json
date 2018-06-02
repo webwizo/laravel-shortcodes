@@ -43,12 +43,16 @@
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit",
+        "post-autoload-dump":[
+            "@php ../../../artisan make:provider ShortcodesServiceProvider"
+        ]
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Webwizo\\Shortcodes\\ShortcodesServiceProvider"
+                "Webwizo\\Shortcodes\\ShortcodesServiceProvider",
+                "App\\Providers\\ShortcodesServiceProvider::class"
             ],
             "aliases": {
                 "Shortcode": "Webwizo\\Shortcodes\\Facades\\Shortcode"
