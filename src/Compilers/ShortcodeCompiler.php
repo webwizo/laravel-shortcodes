@@ -37,6 +37,8 @@ class ShortcodeCompiler
      * @var array
      */
     protected $data = [];
+    
+    protected $_viewData;
 
     /**
      * Enable
@@ -139,6 +141,13 @@ class ShortcodeCompiler
 
         return preg_replace_callback("/{$pattern}/s", [$this, 'render'], $value);
     }
+    
+    // get view data
+    public function viewData( $viewData )
+    {
+        $this->_viewData = $viewData;
+        return $this;
+    }
 
     /**
      * Render the current calld shortcode.
@@ -152,6 +161,7 @@ class ShortcodeCompiler
         // Compile the shortcode
         $compiled = $this->compileShortcode($matches);
         $name = $compiled->getName();
+        $viewData = $this->_viewData;
 
         // Render the shortcode through the callback
         return call_user_func_array($this->getCallback($name), [
@@ -159,7 +169,7 @@ class ShortcodeCompiler
             $compiled->getContent(),
             $this,
             $name,
-            $this->getData()
+            $viewData
         ]);
     }
 
