@@ -1,7 +1,7 @@
 {
-    "name": "webwizo/laravel-shortcodes",
+    "name": "professorhaseeb/laravel-shortcodes",
     "type": "library",
-    "description": "Wordpress like shortcodes for Laravel 5.x",
+    "description": "Wordpress like shortcodes for Laravel 5.6 forked from webwizo/laravel-shortcodes",
     "keywords": [
         "laravel",
         "wordpress",
@@ -15,6 +15,12 @@
             "email": "webwizo@gmail.com",
             "homepage": "http://www.webwizo.com",
             "role": "Developer"
+        }
+        {
+            "name": "Haseeb Ur Rehman",
+            "email": "hello@haseeburrehman.com",
+            "homepage": "https://haseeburrehman.com",
+            "role": "Contributor"
         }
     ],
     "require": {
