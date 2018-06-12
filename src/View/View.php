@@ -4,7 +4,7 @@ use ArrayAccess;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\View\View as IlluminateView;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
-use Illuminate\View\Engines\CompilerEngine;
+use Illuminate\Contracts\View\Engine as EngineInterface;
 
 class View extends IlluminateView implements ArrayAccess, Renderable
 {
@@ -19,14 +19,14 @@ class View extends IlluminateView implements ArrayAccess, Renderable
     /**
      * Create a new view instance.
      *
-     * @param \Illuminate\View\Factory|Factory                           $factory
-     * @param \Illuminate\View\Compilers\CompilerEngine|CompilerEngine   $engine
-     * @param  string                                                    $view
-     * @param  string                                                    $path
-     * @param  array                                                     $data
-     * @param \Webwizo\Shortcodes\Compilers\ShortcodeCompiler            $shortcode
+     * @param \Illuminate\View\Factory|Factory                      $factory
+     * @param \Illuminate\Contracts\View\Engine|EngineInterface     $engine
+     * @param  string                                               $view
+     * @param  string                                               $path
+     * @param  array                                                $data
+     * @param \Webwizo\Shortcodes\Compilers\ShortcodeCompiler       $shortcode
      */
-    public function __construct(Factory $factory, CompilerEngine $engine, $view, $path, $data = [], ShortcodeCompiler $shortcode)
+    public function __construct(Factory $factory, EngineInterface $engine, $view, $path, $data = [], ShortcodeCompiler $shortcode)
     {
         parent::__construct($factory, $engine, $view, $path, $data);
         $this->shortcode = $shortcode;
