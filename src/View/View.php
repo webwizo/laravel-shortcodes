@@ -66,6 +66,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      */
     protected function renderContents()
     {
+        $this->shortcode->viewData($this->getData());
         // We will keep track of the amount of views being rendered so we can flush
         // the section after the complete rendering operation is done. This will
         // clear out the sections for any separate views that may be rendered.
