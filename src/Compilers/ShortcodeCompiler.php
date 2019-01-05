@@ -273,6 +273,9 @@ class ShortcodeCompiler
      */
     protected function parseAttributes($text)
     {
+        // decode attribute values
+        $text = htmlspecialchars_decode($text, ENT_QUOTES);
+
         $attributes = [];
         // attributes pattern
         $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
