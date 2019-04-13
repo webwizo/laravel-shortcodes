@@ -27,7 +27,7 @@
         "phpunit/phpunit": "^7.5|^8.0",
         "orchestra/testbench": "~3.8.0",
         "scrutinizer/ocular": "^1.5",
-        "squizlabs/php_codesniffer": "~2.3",
+        "squizlabs/php_codesniffer": "~2.3"
     },
     "autoload": {
         "classmap": [
