@@ -224,6 +224,10 @@ If you discover any security related issues, please email webwizo@gmail.com inst
 - [Asif Iqbal][link-author]
 - [All Contributors][link-contributors]
 
+## Support me
+
+<a href="https://www.buymeacoffee.com/webwizo" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-blue.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
