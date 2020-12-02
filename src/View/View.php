@@ -1,4 +1,6 @@
-<?php namespace Webwizo\Shortcodes\View;
+<?php
+
+namespace Webwizo\Shortcodes\View;
 
 use ArrayAccess;
 use Illuminate\Contracts\Support\Renderable;
@@ -19,14 +21,14 @@ class View extends IlluminateView implements ArrayAccess, Renderable
     /**
      * Create a new view instance.
      *
+     * @param \Webwizo\Shortcodes\Compilers\ShortcodeCompiler       $shortcode
      * @param \Illuminate\View\Factory|Factory                      $factory
      * @param \Illuminate\Contracts\View\Engine|EngineInterface     $engine
      * @param  string                                               $view
      * @param  string                                               $path
      * @param  array                                                $data
-     * @param \Webwizo\Shortcodes\Compilers\ShortcodeCompiler       $shortcode
      */
-    public function __construct(Factory $factory, EngineInterface $engine, $view, $path, $data = [], ShortcodeCompiler $shortcode)
+    public function __construct(ShortcodeCompiler $shortcode, Factory $factory, EngineInterface $engine, $view, $path, $data = [])
     {
         parent::__construct($factory, $engine, $view, $path, $data);
         $this->shortcode = $shortcode;

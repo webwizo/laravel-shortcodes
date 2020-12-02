@@ -1,4 +1,6 @@
-<?php namespace Webwizo\Shortcodes\View;
+<?php
+
+namespace Webwizo\Shortcodes\View;
 
 use Illuminate\Events\Dispatcher;
 use Illuminate\View\ViewFinderInterface;
@@ -49,7 +51,7 @@ class Factory extends IlluminateViewFactory
         // the caller for rendering or performing other view manipulations on this.
         $data = array_merge($mergeData, $this->parseData($data));
 
-        return tap(new View($this, $this->getEngineFromPath($path), $view, $path, $data, $this->shortcode), function ($view) {
+        return tap(new View($this->shortcode, $this, $this->getEngineFromPath($path), $view, $path, $data), function ($view) {
             $this->callCreator($view);
         });
     }
