@@ -29,14 +29,14 @@ class Shortcode implements Arrayable
      * Constructor
      *
      * @param string $name
-     * @param array  $attributes
      * @param string $content
+     * @param array  $attributes
      */
-    public function __construct($name, $attributes = [], $content)
+    public function __construct($name, $content, $attributes = [])
     {
         $this->name = $name;
-        $this->attributes = $attributes;
         $this->content = $content;
+        $this->attributes = $attributes;
     }
 
     /**
