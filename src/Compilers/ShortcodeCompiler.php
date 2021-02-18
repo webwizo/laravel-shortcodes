@@ -190,8 +190,8 @@ class ShortcodeCompiler
         // return shortcode instance
         return new Shortcode(
             $this->getName(),
-            $attributes,
-            $this->getContent()
+            $this->getContent(),
+            $attributes
         );
     }
 
