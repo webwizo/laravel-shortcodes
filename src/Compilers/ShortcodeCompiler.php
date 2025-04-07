@@ -37,7 +37,7 @@ class ShortcodeCompiler
      * @var array
      */
     protected $data = [];
-    
+
     protected $_viewData;
 
     /**
@@ -141,7 +141,7 @@ class ShortcodeCompiler
 
         return preg_replace_callback("/{$pattern}/s", [$this, 'render'], $value);
     }
-    
+
     // get view data
     public function viewData( $viewData )
     {
@@ -190,8 +190,8 @@ class ShortcodeCompiler
         // return shortcode instance
         return new Shortcode(
             $this->getName(),
-            $attributes,
-            $this->getContent()
+            $this->getContent(),
+            $attributes
         );
     }
 
@@ -373,7 +373,7 @@ class ShortcodeCompiler
 
         return $m[1] . $m[6];
     }
-    
+
     /**
      * Get registered shortcodes
      *
