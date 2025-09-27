@@ -52,7 +52,7 @@ class MakeShortcodeCommand extends Command
         $stubPath = base_path('resources/stubs/shortcode.stub');
         if (!$this->files->exists($stubPath)) {
             // fallback to package stub if not published
-            $stubPath = __DIR__ . '/../../../resources/stubs/shortcode.stub';
+            $stubPath = __DIR__ . '/../../resources/stubs/shortcode.stub';
         }
         $stub = $this->files->get($stubPath);
         return str_replace('{{class}}', $className, $stub);
