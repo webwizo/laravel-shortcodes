@@ -27,7 +27,7 @@ If you are looking for Laravel 4.2, see: https://github.com/patrickbrouwers/Lara
 
 Via Composer
 
-``` bash
+```bash
 $ composer require "webwizo/laravel-shortcodes:1.0.*"
 ```
 
@@ -107,7 +107,7 @@ Shortcode::strip($contents);
 
 Create a new ServiceProvider where you can register all the shortcodes.
 
-``` bash
+```bash
 php artisan make:provider ShortcodesServiceProvider
 ```
 
@@ -128,6 +128,7 @@ php artisan make:provider ShortcodesServiceProvider
 ```
 
 ShortcodesServiceProvider.php Class File
+
 ```php
 <?php namespace App\Providers;
 
@@ -163,6 +164,7 @@ class ShortcodesServiceProvider extends ServiceProvider
 ### Default class for BoldShortcode
 
 You can store each shortcode within their class `app/Shortcodes/BoldShortcode.php`
+
 ```php
 namespace App\Shortcodes;
 
@@ -172,13 +174,14 @@ class BoldShortcode {
   {
     return sprintf('<strong class="%s">%s</strong>', $shortcode->class, $content);
   }
-  
+
 }
 ```
 
 ### Class with custom method
 
 You can store each shortcode within their class `app/Shortcodes/ItalicShortcode.php`
+
 ```php
 namespace App\Shortcodes;
 
@@ -188,7 +191,7 @@ class ItalicShortcode {
   {
     return sprintf('<i class="%s">%s</i>', $shortcode->class, $content);
   }
-  
+
 }
 ```
 
@@ -203,8 +206,41 @@ class BoldShortcode {
   {
     return '<strong '. $shortcode->get('class', 'default') .'>' . $content . '</strong>';
   }
-  
+
 }
+```
+
+## Shortcode Artisan Generator Command
+
+This package provides an Artisan command to quickly generate shortcode classes:
+
+```php
+php artisan make:shortcode YourShortcodeName
+```
+
+-   By default, this creates a new class in `app/Shortcodes/YourShortcodeNameShortcode.php`.
+-   If the file already exists, use the `--force` option to overwrite:
+
+```bash
+php artisan make:shortcode YourShortcodeName --force
+```
+
+### Customizing the Stub
+
+You can publish the stub file to customize the generated class:
+
+```bash
+php artisan vendor:publish --tag=shortcode-stubs
+```
+
+This will copy the stub to `resources/stubs/shortcode.stub` in your Laravel app. Edit this file to change the template for new shortcode classes.
+
+## Testing
+
+To run the tests for the shortcode generator command:
+
+```bash
+composer test
 ```
 
 ## Change log
@@ -221,8 +257,8 @@ If you discover any security related issues, please email webwizo@gmail.com inst
 
 ## Credits
 
-- [Asif Iqbal][link-author]
-- [All Contributors][link-contributors]
+-   [Asif Iqbal][link-author]
+-   [All Contributors][link-contributors]
 
 ## Support me
 
@@ -238,7 +274,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/webwizo/laravel-shortcodes.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/webwizo/laravel-shortcodes.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/webwizo/laravel-shortcodes.svg?style=flat-square
-
 [link-packagist]: https://packagist.org/packages/webwizo/laravel-shortcodes
 [link-travis]: https://travis-ci.org/webwizo/laravel-shortcodes
 [link-scrutinizer]: https://scrutinizer-ci.com/g/webwizo/laravel-shortcodes/code-structure

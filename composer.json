@@ -1,7 +1,7 @@
 {
     "name": "webwizo/laravel-shortcodes",
     "type": "library",
-    "description": "Wordpress like shortcodes for Laravel 5, 6, 7, 8, 9, 10 and 11",
+    "description": "Wordpress like shortcodes for Laravel 5, 6, 7, 8, 9, 10, 11 and 12",
     "keywords": [
         "laravel",
         "wordpress",

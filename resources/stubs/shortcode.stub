@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Shortcodes;
+
+class {{class}}
+{
+    public function register($shortcode, $content, $compiler, $name, $viewData)
+    {
+        // Implement shortcode logic here
+        return $content;
+    }
+}

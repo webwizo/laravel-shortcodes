@@ -16,6 +16,15 @@ class ShortcodesServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->enableCompiler();
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \Webwizo\Shortcodes\Console\MakeShortcodeCommand::class,
+            ]);
+            // Publish stub file for customization
+            $this->publishes([
+                __DIR__ . '/../resources/stubs/shortcode.stub' => resource_path('stubs/shortcode.stub'),
+            ], 'shortcode-stubs');
+        }
     }
 
     /**
