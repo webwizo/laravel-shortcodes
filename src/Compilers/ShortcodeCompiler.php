@@ -277,8 +277,8 @@ class ShortcodeCompiler
         $text = htmlspecialchars_decode($text, ENT_QUOTES);
 
         $attributes = [];
-        // attributes pattern
-        $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+        // Match WordPress-style attributes; allow `]` after a value (issue #56) and hyphenated keys (WP 4.4+).
+        $pattern = '/([\w-]+)\s*=\s*"([^"]*)"(?:\s|\]|$)|([\w-]+)\s*=\s*\'([^\']*)\'(?:\s|\]|$)|([\w-]+)\s*=\s*([^\s\'"]+)(?:\s|\]|$)|"([^"]*)"(?:\s|\]|$)|\'([^\']*)\'(?:\s|\]|$)|(\S+)(?:\s|\]|$)/';
         // Match
         if (preg_match_all($pattern, preg_replace('/[\x{00a0}\x{200b}]+/u', " ", $text), $match, PREG_SET_ORDER)) {
             foreach ($match as $m) {
@@ -290,8 +290,10 @@ class ShortcodeCompiler
                     $attributes[strtolower($m[5])] = stripcslashes($m[6]);
                 } elseif (isset($m[7]) && strlen($m[7])) {
                     $attributes[] = stripcslashes($m[7]);
-                } elseif (isset($m[8])) {
+                } elseif (isset($m[8]) && strlen($m[8])) {
                     $attributes[] = stripcslashes($m[8]);
+                } elseif (isset($m[9])) {
+                    $attributes[] = stripcslashes($m[9]);
                 }
             }
         } else {
