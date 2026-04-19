@@ -137,9 +137,11 @@ class ShortcodeCompiler
      */
     protected function renderShortcodes($value)
     {
-        $pattern = $this->getRegex();
+        if (!$this->hasShortcodes()) {
+            return $value;
+        }
 
-        return preg_replace_callback("/{$pattern}/s", [$this, 'render'], $value);
+        return $this->replaceShortcodesInString($value, [$this, 'render']);
     }
     
     // get view data
@@ -311,7 +313,12 @@ class ShortcodeCompiler
      */
     protected function getShortcodeNames()
     {
-        return join('|', array_map('preg_quote', array_keys($this->registered)));
+        $names = array_keys($this->registered);
+        usort($names, function ($a, $b) {
+            return strlen($b) <=> strlen($a);
+        });
+
+        return implode('|', array_map('preg_quote', $names));
     }
 
     /**
@@ -339,9 +346,8 @@ class ShortcodeCompiler
         if (empty($this->registered)) {
             return $content;
         }
-        $pattern = $this->getRegex();
 
-        return preg_replace_callback("/{$pattern}/s", [$this, 'stripTag'], $content);
+        return $this->replaceShortcodesInString($content, [$this, 'stripTag']);
     }
 
     /**
@@ -375,7 +381,228 @@ class ShortcodeCompiler
 
         return $m[1] . $m[6];
     }
-    
+
+    /**
+     * Replace shortcodes left-to-right using balanced matching for nested tags with the same name (GitHub #59).
+     *
+     * @param  callable(array): string  $callback
+     */
+    protected function replaceShortcodesInString(string $value, callable $callback): string
+    {
+        $namesPattern = $this->getShortcodeNames();
+        if ($namesPattern === '') {
+            return $value;
+        }
+
+        $out = '';
+        $offset = 0;
+        $len = strlen($value);
+
+        while ($offset < $len) {
+            if (!preg_match('/\[\[|\[(' . $namesPattern . ')(?![\w-])/s', $value, $m, PREG_OFFSET_CAPTURE, $offset)) {
+                $out .= substr($value, $offset);
+                break;
+            }
+
+            $matchStart = (int) $m[0][1];
+            $token = $m[0][0];
+
+            if ($token === '[[') {
+                $out .= substr($value, $offset, $matchStart - $offset);
+                $out .= '[';
+                $offset = $matchStart + 2;
+
+                continue;
+            }
+
+            $out .= substr($value, $offset, $matchStart - $offset);
+
+            $name = $m[1][0];
+            $openBracket = $matchStart;
+
+            $openEnd = $this->findEndOfOpeningShortcodeTag($value, $openBracket);
+            if ($openEnd === null) {
+                $out .= '[';
+                $offset = $openBracket + 1;
+
+                continue;
+            }
+
+            $matchArr = $this->composeShortcodeMatch($value, $openBracket, $openEnd, $name);
+            if ($matchArr === null) {
+                $out .= '[';
+                $offset = $openBracket + 1;
+
+                continue;
+            }
+
+            $out .= $callback($matchArr);
+            $offset = $matchArr['_end'];
+        }
+
+        return $out;
+    }
+
+    /**
+     * @return int|null byte offset immediately after the opening tag's closing `]`
+     */
+    protected function findEndOfOpeningShortcodeTag(string $value, int $openBracket): ?int
+    {
+        $len = strlen($value);
+        $i = $openBracket + 1;
+        if ($i >= $len) {
+            return null;
+        }
+
+        if ($value[$i] === '[') {
+            return null;
+        }
+
+        $quote = null;
+        for (; $i < $len; $i++) {
+            $c = $value[$i];
+            if ($quote !== null) {
+                if ($c === '\\') {
+                    $i++;
+
+                    continue;
+                }
+                if ($c === $quote) {
+                    $quote = null;
+                }
+
+                continue;
+            }
+            if ($c === '"' || $c === "'") {
+                $quote = $c;
+
+                continue;
+            }
+            if ($c === ']') {
+                return $i + 1;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array<string, mixed>|null  preg-style match array plus `_end` (exclusive end offset in $value)
+     */
+    protected function composeShortcodeMatch(string $value, int $openBracket, int $openEnd, string $name): ?array
+    {
+        $openTag = substr($value, $openBracket, $openEnd - $openBracket);
+        $isSelfClosing = (bool) preg_match('#/\s*\]\s*$#', $openTag);
+
+        $nameStart = $openBracket + 1;
+        if ($nameStart + strlen($name) > $openEnd) {
+            return null;
+        }
+
+        if (strcasecmp(substr($value, $nameStart, strlen($name)), $name) !== 0) {
+            return null;
+        }
+
+        $attrsStart = $nameStart + strlen($name);
+        $attrsRaw = substr($value, $attrsStart, $openEnd - 1 - $attrsStart);
+        if ($isSelfClosing) {
+            $attrsRaw = rtrim($attrsRaw);
+            $attrsRaw = preg_replace('#/\s*$#', '', $attrsRaw) ?? '';
+        }
+
+        if ($isSelfClosing) {
+            $fullEnd = $openEnd;
+            $content = '';
+
+            return [
+                0 => substr($value, $openBracket, $fullEnd - $openBracket),
+                1 => '',
+                2 => $name,
+                3 => $attrsRaw,
+                4 => '/',
+                5 => $content,
+                6 => '',
+                '_end' => $fullEnd,
+            ];
+        }
+
+        $balanced = $this->findBalancedClosingTag($value, $openEnd, $name);
+        if ($balanced === null) {
+            // Void shortcode: [tag attrs] with no matching [/tag] (GitHub #51).
+            $fullEnd = $openEnd;
+
+            return [
+                0 => substr($value, $openBracket, $fullEnd - $openBracket),
+                1 => '',
+                2 => $name,
+                3 => $attrsRaw,
+                4 => '/',
+                5 => '',
+                6 => '',
+                '_end' => $fullEnd,
+            ];
+        }
+
+        [$closeStart, $closeEnd] = $balanced;
+        $content = substr($value, $openEnd, $closeStart - $openEnd);
+        $fullEnd = $closeEnd;
+
+        return [
+            0 => substr($value, $openBracket, $fullEnd - $openBracket),
+            1 => '',
+            2 => $name,
+            3 => $attrsRaw,
+            4 => '',
+            5 => $content,
+            6 => '',
+            '_end' => $fullEnd,
+        ];
+    }
+
+    /**
+     * @return array{0: int, 1: int}|null  [closeBracketStart, exclusiveEndAfterCloseTag]
+     */
+    protected function findBalancedClosingTag(string $value, int $contentStart, string $name): ?array
+    {
+        $len = strlen($value);
+        $depth = 1;
+        $pos = $contentStart;
+        $openRe = '/\[(?!\/)' . preg_quote($name, '/') . '(?![\w-])/i';
+        $closeRe = '/\[\/' . preg_quote($name, '/') . '\]/i';
+
+        while ($pos < $len && $depth > 0) {
+            $hasOpen = preg_match($openRe, $value, $mo, PREG_OFFSET_CAPTURE, $pos);
+            $hasClose = preg_match($closeRe, $value, $mc, PREG_OFFSET_CAPTURE, $pos);
+
+            if (!$hasClose) {
+                return null;
+            }
+
+            $openPos = $hasOpen ? (int) $mo[0][1] : PHP_INT_MAX;
+            $closePos = (int) $mc[0][1];
+
+            if ($hasOpen && $openPos < $closePos) {
+                $depth++;
+                $nextOpenEnd = $this->findEndOfOpeningShortcodeTag($value, $openPos);
+                if ($nextOpenEnd === null) {
+                    return null;
+                }
+                $pos = $nextOpenEnd;
+
+                continue;
+            }
+
+            $depth--;
+            $closeEnd = $closePos + strlen($mc[0][0]);
+            if ($depth === 0) {
+                return [$closePos, $closeEnd];
+            }
+            $pos = $closeEnd;
+        }
+
+        return null;
+    }
+
     /**
      * Get registered shortcodes
      *
