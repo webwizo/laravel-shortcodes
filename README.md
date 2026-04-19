@@ -8,7 +8,9 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![StyleCI](https://styleci.io/repos/59507292/shield)](https://styleci.io/repos/59507292)
 
-WordPress like shortcodes for Laravel 5.x
+WordPress-like shortcodes for **Laravel 11, 12, and 13** (PHP 8.2+).
+
+**Documentation last updated:** 2026-04-19
 
 ```php
 [b class="bold"]Bold text[/b]
@@ -25,21 +27,21 @@ If you are looking for Laravel 4.2, see: https://github.com/patrickbrouwers/Lara
 
 ## Install
 
-Via Composer
+Via Composer:
 
 ```bash
-$ composer require "webwizo/laravel-shortcodes:1.0.*"
+composer require webwizo/laravel-shortcodes
 ```
 
-After updating composer, add the ServiceProvider to the providers array in `config/app.php`
+Laravel 11+ discovers the package automatically. On older setups, register `Webwizo\Shortcodes\ShortcodesServiceProvider` in `config/app.php` (or `bootstrap/providers.php` where applicable).
 
-## Usage
+### Service provider (manual registration)
 
 ```php
 Webwizo\Shortcodes\ShortcodesServiceProvider::class,
 ```
 
-You can use the facade for shorter code. Add this to your aliases:
+You can use the facade for shorter code. Add this to your aliases (optional):
 
 ```php
 'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
@@ -51,7 +53,7 @@ The class is bound to the ioC as `shortcode`
 $shortcode = app('shortcode');
 ```
 
-# Usage
+## Usage
 
 ### withShortcodes()
 
@@ -103,6 +105,20 @@ return view('view')->withStripShortcodes();
 Shortcode::strip($contents);
 ```
 
+## Shortcode syntax and parser
+
+The compiler scans templates left to right. Behaviour relevant to authoring tags:
+
+| Topic | Behaviour |
+|--------|------------|
+| **Attributes** | Quoted values may contain spaces. Keys may include hyphens (e.g. `data-size="large"`). Parsing follows the same general rules as WordPress shortcode attributes. |
+| **Void / self-closing** | A tag such as `[alert type="info"]` with **no** matching `[/alert]` is treated as self-closing (no inner body). Use explicit `[/tag]` when you need wrapping content. |
+| **Nested same-name tags** | Nested tags with the **same** name (e.g. `[div]…[div]…[/div]…[/div]`) are matched using balanced opening/closing pairs, innermost structure preserved. |
+| **Unknown `[` text** | Text in square brackets that does **not** start with a registered shortcode name is left unchanged (so prose like `[I agree …]` is not eaten). |
+| **Escaping** | Use doubled brackets to output a literal shortcode: `[[b]]` → `[b]`. |
+
+PHPUnit regression tests for these cases live under `tests/GitHubIssue*.php`.
+
 ## Registering new shortcodes
 
 Create a new ServiceProvider where you can register all the shortcodes.
@@ -111,9 +127,9 @@ Create a new ServiceProvider where you can register all the shortcodes.
 php artisan make:provider ShortcodesServiceProvider
 ```
 
-After defining shortcodes, add the ServiceProvider to the providers array in `config/app.php`
+After defining shortcodes, add the ServiceProvider to the providers array in `config/app.php` (or `bootstrap/providers.php`).
 
-## Usage
+### Example: register your shortcodes provider
 
 ```php
 App\Providers\ShortcodesServiceProvider::class,
@@ -237,10 +253,12 @@ This will copy the stub to `resources/stubs/shortcode.stub` in your Laravel app.
 
 ## Testing
 
-To run the tests for the shortcode generator command:
+From the package root (after `composer install`):
 
 ```bash
 composer test
+# or
+vendor/bin/phpunit
 ```
 
 ## Change log
