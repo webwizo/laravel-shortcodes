@@ -409,7 +409,27 @@ class ShortcodeCompiler
 
             if ($token === '[[') {
                 $out .= substr($value, $offset, $matchStart - $offset);
-                $out .= '[';
+                $escapedOpen = preg_match(
+                    '/\[\[(' . $namesPattern . ')(?![\w-])/i',
+                    $value,
+                    $escapedMatch,
+                    PREG_OFFSET_CAPTURE,
+                    $matchStart
+                );
+
+                if ($escapedOpen && (int) $escapedMatch[0][1] === $matchStart) {
+                    // Handle WordPress-style escaped shortcode tags only (e.g. [[tag]]).
+                    // Leave non-shortcode double brackets untouched to avoid corrupting JSON like Livewire snapshots.
+                    $escapedOpenEnd = $this->findEndOfOpeningShortcodeTag($value, $matchStart + 1);
+                    if ($escapedOpenEnd !== null && $escapedOpenEnd < $len && $value[$escapedOpenEnd] === ']') {
+                        $out .= substr($value, $matchStart + 1, $escapedOpenEnd - $matchStart);
+                        $offset = $escapedOpenEnd + 1;
+
+                        continue;
+                    }
+                }
+
+                $out .= '[[';
                 $offset = $matchStart + 2;
 
                 continue;

@@ -4,6 +4,16 @@ All Notable changes to `laravel-shortcodes` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://github.com/webwizo/laravel-shortcodes) principles.
 
+## 2026-04-20
+
+#### Shortcodes Latest version: v1.0.30
+
+### Fixed
+- Fix escaped shortcode handling so non-shortcode `[[` sequences are preserved instead of globally rewritten. This prevents Livewire `wire:snapshot` JSON corruption introduced in `v1.0.29` (`#87`).
+
+### Tests
+- Add package regression test `GitHubIssue87LivewireSnapshotEscapeTest` to verify snapshot-like JSON with `[[],{"s":"arr"}]` is not modified while escaped shortcode syntax still unescapes correctly.
+
 ## 2016-12-06
 
 #### Shortcodes Latest version: v1.0.6
