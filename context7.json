@@ -1,4 +1,32 @@
 {
+    "$schema": "https://context7.com/schema/context7.json",
     "url": "https://context7.com/webwizo/laravel-shortcodes",
-    "public_key": "pk_exBlYMBsmYKmrE9C8vhrI"
+    "projectTitle": "Laravel Shortcodes",
+    "description": "WordPress-like shortcodes for Laravel 11, 12, and 13, including compiler behavior and parser edge-case handling.",
+    "branch": "master",
+    "folders": [
+        "src",
+        "tests",
+        "README.md"
+    ],
+    "excludeFolders": [
+        "vendor"
+    ],
+    "excludeFiles": [
+        "CONDUCT.md",
+        "LICENSE.md"
+    ],
+    "rules": [
+        "Preserve backward compatibility for shortcode parsing behavior.",
+        "When changing parsing logic, add or update regression tests for malformed brackets, nested same-name tags, escaped shortcode syntax, and quoted attributes with spaces.",
+        "Keep callback signatures and compiled shortcode behavior backward compatible."
+    ],
+    "previousVersions": [
+        {
+            "tag": "v1.0.30"
+        },
+        {
+            "tag": "v1.0.29"
+        }
+    ]
 }
