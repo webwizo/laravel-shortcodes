@@ -68,25 +68,41 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      */
     protected function renderContents()
     {
+        $enableForThisRender = !empty($this->data['__laravel_shortcodes_enable_for_render']);
+        if ($enableForThisRender) {
+            unset($this->data['__laravel_shortcodes_enable_for_render']);
+        }
+
+        $wasEnabled = $this->shortcode->isEnabled();
+        if ($enableForThisRender && !$wasEnabled) {
+            $this->shortcode->enable();
+        }
+
         $this->shortcode->viewData($this->getData());
         // We will keep track of the amount of views being rendered so we can flush
         // the section after the complete rendering operation is done. This will
         // clear out the sections for any separate views that may be rendered.
-        $this->factory->incrementRender();
-        $this->factory->callComposer($this);
-        $contents = $this->getContents();
-        if ($this->shortcode->getStrip()) {
-            // strip content without shortcodes
-            $contents = $this->shortcode->strip($contents);
-        } else {
-            // compile the shortcodes
-            $contents = $this->shortcode->compile($contents);
-        }
-        // Once we've finished rendering the view, we'll decrement the render count
-        // so that each sections get flushed out next time a view is created and
-        // no old sections are staying around in the memory of an environment.
-        $this->factory->decrementRender();
+        try {
+            $this->factory->incrementRender();
+            $this->factory->callComposer($this);
+            $contents = $this->getContents();
+            if ($this->shortcode->getStrip()) {
+                // strip content without shortcodes
+                $contents = $this->shortcode->strip($contents);
+            } else {
+                // compile the shortcodes
+                $contents = $this->shortcode->compile($contents);
+            }
+            // Once we've finished rendering the view, we'll decrement the render count
+            // so that each sections get flushed out next time a view is created and
+            // no old sections are staying around in the memory of an environment.
+            $this->factory->decrementRender();
 
-        return $contents;
+            return $contents;
+        } finally {
+            if ($enableForThisRender && !$wasEnabled) {
+                $this->shortcode->disable();
+            }
+        }
     }
 }

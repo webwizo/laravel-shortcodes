@@ -4,6 +4,16 @@ All Notable changes to `laravel-shortcodes` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://github.com/webwizo/laravel-shortcodes) principles.
 
+## 2026-04-22
+
+#### Shortcodes Latest version: v1.0.31
+
+### Added
+- Add `Mailable::withShortcodes()` support so shortcode compilation can be enabled directly for mailable views (`#52`).
+
+### Tests
+- Add package regression test `GitHubIssue52MailableShortcodesTest` to verify mailables render shortcode tags when `->withShortcodes()` is used.
+
 ## 2026-04-20
 
 #### Shortcodes Latest version: v1.0.30

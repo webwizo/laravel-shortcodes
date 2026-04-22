@@ -2,15 +2,13 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
-[![StyleCI](https://styleci.io/repos/59507292/shield)](https://styleci.io/repos/59507292)
 
 WordPress-like shortcodes for **Laravel 11, 12, and 13** (PHP 8.2+).
 
-**Documentation last updated:** 2026-04-19
+**Documentation last updated:** 2026-04-22
 
 ```php
 [b class="bold"]Bold text[/b]
@@ -64,6 +62,37 @@ return view('view')->withShortcodes();
 ```
 
 This will enable shortcode rendering for that view only.
+
+### withShortcodes() in Mailables
+
+You can also enable shortcode compilation for a mailable view:
+
+Available since: `v1.0.31`
+
+```php
+use Illuminate\Mail\Mailable;
+
+class NewsletterMail extends Mailable
+{
+    public function build()
+    {
+        return $this
+            ->subject('Weekly newsletter')
+            ->view('emails.newsletter', [
+                'content' => 'Mail content',
+            ])
+            ->withShortcodes();
+    }
+}
+```
+
+`emails/newsletter.blade.php`
+
+```blade
+[b class="mail"]{{ $content }}[/b]
+```
+
+The shortcode tags in that mailable view will be compiled during rendering.
 
 ### Enable through class
 

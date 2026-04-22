@@ -3,6 +3,7 @@
 namespace Webwizo\Shortcodes;
 
 use Webwizo\Shortcodes\View\Factory;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\ServiceProvider;
 use Webwizo\Shortcodes\Compilers\ShortcodeCompiler;
 
@@ -16,6 +17,7 @@ class ShortcodesServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->enableCompiler();
+        $this->registerMailableMacros();
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \Webwizo\Shortcodes\Console\MakeShortcodeCommand::class,
@@ -25,6 +27,20 @@ class ShortcodesServiceProvider extends ServiceProvider
                 __DIR__ . '/../resources/stubs/shortcode.stub' => resource_path('stubs/shortcode.stub'),
             ], 'shortcode-stubs');
         }
+    }
+
+    /**
+     * Register mailable helpers for shortcode-enabled mail views.
+     */
+    protected function registerMailableMacros(): void
+    {
+        if (!class_exists(Mailable::class) || Mailable::hasMacro('withShortcodes')) {
+            return;
+        }
+
+        Mailable::macro('withShortcodes', function () {
+            return $this->with('__laravel_shortcodes_enable_for_render', true);
+        });
     }
 
     /**

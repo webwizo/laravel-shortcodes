@@ -1,4 +1,5 @@
-<?php namespace Webwizo\Shortcodes\Compilers;
+<?php
+namespace Webwizo\Shortcodes\Compilers;
 
 use Illuminate\Support\Str;
 
@@ -37,7 +38,7 @@ class ShortcodeCompiler
      * @var array
      */
     protected $data = [];
-    
+
     protected $_viewData;
 
     /**
@@ -58,6 +59,14 @@ class ShortcodeCompiler
     public function disable()
     {
         $this->enabled = false;
+    }
+
+    /**
+     * Determine whether shortcode compilation is enabled.
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
     }
 
     /**
@@ -143,9 +152,9 @@ class ShortcodeCompiler
 
         return $this->replaceShortcodesInString($value, [$this, 'render']);
     }
-    
+
     // get view data
-    public function viewData( $viewData )
+    public function viewData($viewData)
     {
         $this->_viewData = $viewData;
         return $this;
