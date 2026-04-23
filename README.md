@@ -6,7 +6,8 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-WordPress-like shortcodes for **Laravel 11, 12, and 13** (PHP 8.2+).
+## WordPress-like shortcodes for **Laravel 11, 12, and 13** (PHP 8.2+).
+![Laravel Shortcodes](https://github.com/webwizo/laravel-shortcodes/blob/master/preview.png?raw=true)
 
 **Documentation last updated:** 2026-04-22
 
