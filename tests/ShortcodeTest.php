@@ -41,4 +41,21 @@ class ShortcodeTest extends TestCase
 
         $this->assertEmpty($compiled);
     }
+
+    public function testViewDataIsMergedAcrossNestedRenders(): void
+    {
+        $compiler = app('shortcode.compiler');
+
+        $compiler->add('shortcode', function ($shortcode, $content, $compiler, $name, $viewData) {
+            return json_encode($viewData);
+        });
+
+        $compiler->enable();
+        $compiler->viewData(['parent' => 'layout']);
+        $compiler->viewData(['child' => 'partial']);
+
+        $compiled = $compiler->compile('[shortcode][/shortcode]');
+
+        $this->assertSame('{"parent":"layout","child":"partial"}', $compiled);
+    }
 }
