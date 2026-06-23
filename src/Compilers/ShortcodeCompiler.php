@@ -161,6 +161,18 @@ class ShortcodeCompiler
     }
 
     /**
+     * Clear the view data accumulated for the current render.
+     *
+     * @return $this
+     */
+    public function clearViewData()
+    {
+        $this->_viewData = [];
+
+        return $this;
+    }
+
+    /**
      * Render the current calld shortcode.
      *
      * @param  array $matches

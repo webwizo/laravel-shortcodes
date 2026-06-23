@@ -78,6 +78,16 @@ class View extends IlluminateView implements ArrayAccess, Renderable
             $this->shortcode->enable();
         }
 
+        // Reset the accumulated view data only at the top-level render boundary.
+        // Nested views (rendered while an outer view is still in progress) keep
+        // merging so parent/layout data stays available to shortcode callbacks
+        // (preserving #88). Once a top-level render has completed, its data is
+        // released here instead of accumulating on the shared singleton compiler
+        // for the lifetime of the request.
+        if ($this->factory->doneRendering()) {
+            $this->shortcode->clearViewData();
+        }
+
         $this->shortcode->viewData($this->getData());
         // We will keep track of the amount of views being rendered so we can flush
         // the section after the complete rendering operation is done. This will
