@@ -296,8 +296,8 @@ class ShortcodeCompiler
      */
     protected function parseAttributes($text)
     {
-        // decode attribute values
-        $text = htmlspecialchars_decode($text, ENT_QUOTES);
+        // Decode &quot; and numeric entities (e.g. &#34;, &#61;) from HTML sanitizers.
+        $text = html_entity_decode(htmlspecialchars_decode($text, ENT_QUOTES), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
         $attributes = [];
         // Match WordPress-style attributes; allow `]` after a value (issue #56) and hyphenated keys (WP 4.4+).

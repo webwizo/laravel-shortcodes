@@ -4,6 +4,16 @@ All Notable changes to `laravel-shortcodes` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://github.com/webwizo/laravel-shortcodes) principles.
 
+## 2026-09-01
+
+#### Shortcodes Latest version: v1.0.34
+
+### Fixed
+- Fix shortcode attribute parsing when content passes through HTML sanitizers that encode `=` and `"` as numeric entities (`&#61;`, `&#34;`). `htmlspecialchars_decode()` alone does not decode numeric entities, so attributes were mis-parsed as numeric-indexed fragments instead of named key/value pairs.
+
+### Tests
+- Add package regression test `HtmlEntityAttributeParsingTest` covering numeric-entity attribute decoding via `parseAttributes()` and full `compile()` flow.
+
 ## 2026-06-24
 
 #### Shortcodes Latest version: v1.0.33
