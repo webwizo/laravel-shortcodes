@@ -9,6 +9,14 @@
 ## WordPress-like shortcodes for **Laravel 11, 12, and 13** (PHP 8.2+).
 ![Laravel Shortcodes](https://github.com/webwizo/laravel-shortcodes/blob/master/preview.png?raw=true)
 
+> **Trusted by Laravel developers**
+>
+> ⭐ 200+ GitHub stars · 🍺 700K+ Packagist installs · 🔧 50+ forks
+>
+> A battle-tested, open-source shortcode package for Laravel.
+>
+> **[⭐ Star the repository](https://github.com/webwizo/laravel-shortcodes) · [☕ Support the project](https://buymeacoffee.com/webwizo)**
+
 **Documentation last updated:** 2026-04-22
 
 ```php
@@ -308,9 +316,38 @@ If you discover any security related issues, please email webwizo@gmail.com inst
 -   [Asif Iqbal][link-author]
 -   [All Contributors][link-contributors]
 
-## Support me
+## ❤️ Support Open Source
+
+If **Laravel Shortcodes** has saved you time, simplified your Laravel application, or helped you ship something faster, consider supporting its continued development.
+
+This package is free and open source, and your support helps me:
+
+* 🛠️ Maintain and improve the package
+* 🐛 Fix bugs and edge cases
+* 📚 Improve documentation and examples
+* 🚀 Keep compatibility with newer Laravel and PHP versions
+* 💡 Build more useful open-source tools for the Laravel community
+
+### ☕ Buy me a coffee
+
+If this package has been useful to you, a small contribution means a lot and helps keep open-source development going.
 
 <a href="https://www.buymeacoffee.com/webwizo" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+Every contribution is appreciated — whether it's the price of a coffee or simply a ⭐ on GitHub.
+
+### ⭐ Other ways to support
+
+You don't need to spend money to support open source.
+
+* ⭐ **Star this repository**
+* 🐛 **Report bugs**
+* 💡 **Suggest improvements**
+* 🔧 **Submit a pull request**
+* 📖 **Improve the documentation**
+* 📣 **Share the package with other Laravel developers**
+
+Thank you for using **Laravel Shortcodes** and for being part of the open-source community. ❤️
 
 ## License
 
